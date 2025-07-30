@@ -8,11 +8,14 @@ import {
 } from "react-router-dom";
 
 import { router } from './Routes/router.jsx';
+import AuthProvider from './Context/AuthProvider.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <div className='bg-gradient-to-r from-[#131F3D] via-[#1A306F] to-[#21429e]'>
-      <RouterProvider router={router} />
-    </div>
+    <AuthProvider>
+      <div className='bg-gradient-to-b from-[#02071A] via-[#0c1124] to-[#1a2238]'>
+        <RouterProvider router={router} />
+      </div>
+    </AuthProvider>
   </StrictMode>,
 )

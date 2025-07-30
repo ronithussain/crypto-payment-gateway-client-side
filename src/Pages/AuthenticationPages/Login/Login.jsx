@@ -1,9 +1,11 @@
 import { useState } from "react";
-import useAuth from "../hooks/useAuth";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import SocialLogin from "./SocialLogin";
+import { BsArrowLeft } from "react-icons/bs";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import SocialLogin from "../../Shared/SocialLogin/SocialLogin";
+import { useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import useAuth from "../../../Hooks/UseAuth";
 
 
 
@@ -47,7 +49,7 @@ const Login = () => {
                 navigate(from, { replace: true });
             })
             .catch(error => {
-                console.error("Login Error:", error.message); 
+                console.error("Login Error:", error.message);
                 Swal.fire({
                     icon: 'error',
                     title: 'Login Failed',
@@ -58,11 +60,22 @@ const Login = () => {
 
     return (
         <>
-            <div className="flex justify-center items-center min-h-screen bg-gray-100 px-4 ">
-                <div className="lg:mt-[205px] mt-[105px] w-full max-w-md bg-white shadow-lg rounded-lg p-6">
-                    <h2 className="text-2xl font-bold text-center mb-6">Login</h2>
+            <div className="flex justify-center items-center px-4 min-h-screen ">
+                <div className=" w-full max-w-md bg-white shadow-lg rounded-lg p-6">
+                    <div>
+                        <Link to="/">
+                            <span className="text-sm flex items-center gap-x-1 text-gray-600">
+                                <BsArrowLeft /> Back To Home
+                            </span>
+                        </Link>
+                        <div className="text-center mt-3 space-y-2">
+                            <h2 className="text-2xl  sm:text-4xl   font-bold ">Welcome Back</h2>
+                            <p className="text-gray-600">Sign in to your account</p>
+                        </div>
+                    </div>
+                    {/* <SocialLogin></SocialLogin> */}
                     <SocialLogin></SocialLogin>
-                    <div className="divider mt-10">or</div>
+                    <div className="divider">or</div>
 
                     {/* Login Form */}
                     <form
@@ -70,22 +83,22 @@ const Login = () => {
                         className="space-y-4">
                         {/* Email */}
                         <div>
-                            <label className="block font-medium">Email</label>
+                            <label className="block font-medium text-gray-700">Email</label>
                             <input
                                 type="email"
                                 name='email'
-                                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+                                className="input w-full rounded transition border hover:border-blue-500"
                                 placeholder="Enter your email"
                             />
                         </div>
 
                         {/* Password */}
                         <div className="relative">
-                            <label className="block font-medium">Password</label>
+                            <label className="block font-medium text-gray-700">Password</label>
                             <input
                                 type={showsPassword ? "text" : "password"}
                                 name='password'
-                                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+                                className="input w-full rounded transition border hover:border-blue-500"
                                 placeholder="Enter your password"
                             />
                             <button
@@ -98,16 +111,19 @@ const Login = () => {
                         </div>
 
                         {/* Login Button */}
-                        {/* TODO: apply disabled for re-captcha */}
                         <input
                             disabled={false}
-                            type="submit" value='Login' className='btn btn-primary w-full' />
-
-
+                            type="submit" value='Login' className='btn w-full mt-4 bg-[#4F46E5] text-white/80 rounded-xl' />
 
                         {/* Register Link */}
-                        <p className="text-center text-gray-600 mt-4">
-                            You have no account? <Link className="text-blue-600" to="/register">Register now</Link>
+                        <p className="text-center text-sm">
+                            <span>
+                                Don't have an account?
+                            </span>
+                            <Link className="text-[#4F46E5]" to="/register"> Sign up</Link>
+                            <p className="text-[#4F46E5] my-2">
+                                Forgot your password?
+                            </p>
                         </p>
                     </form>
                 </div>
