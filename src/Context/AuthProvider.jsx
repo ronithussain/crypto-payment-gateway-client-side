@@ -1,10 +1,11 @@
 // /* eslint-disable react/prop-types */
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
+import { createUserWithEmailAndPassword, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
 import { GoogleAuthProvider } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import { getAuth } from "firebase/auth";
 import { app } from "../Firebase/firebase.config";
 
+import { sendEmailVerification } from "firebase/auth";
 
 
 
@@ -27,7 +28,7 @@ const AuthProvider = ({ children }) => {
         setLoading(true)
         return signInWithEmailAndPassword(auth, email, password)
     }
-    const signOutUser = () => {
+    const handleLogout = () => {
         setLoading(true);
         return signOut(auth);
     }
@@ -40,6 +41,15 @@ const AuthProvider = ({ children }) => {
         setLoading(true)
         return signInWithPopup(auth, googleProvider)
     }
+    const sendVerificationEmail = () => {
+        if (auth.currentUser) {
+            return sendEmailVerification(auth.currentUser);
+        }
+    };
+     const resetPassword = (email) => {
+    return sendPasswordResetEmail(auth, email);
+  };
+
 
 
     // onAuthStateChange functionality
@@ -60,9 +70,11 @@ const AuthProvider = ({ children }) => {
         loading,
         handleRegister,
         handleLoginUser,
-        signOutUser,
+        handleLogout,
         handleUpdateProfile,
         signInWithGoogle,
+        sendVerificationEmail,
+        resetPassword
     }
     return (
         <AuthContext.Provider value={authInfo}>

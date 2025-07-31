@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { BsArrowLeft } from "react-icons/bs";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -9,11 +9,14 @@ import useAuth from "../../../Hooks/UseAuth";
 
 
 
+
 const Login = () => {
     const [showsPassword, setShowsPassword] = useState(false);
-    const { handleLoginUser } = useAuth();
+    const { handleLoginUser, resetPassword } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
+    // forgotPassword
+    const emailRef = useRef()
 
     const from = location.state?.from?.pathname || '/';
     console.log('in the location login page', location.state)
@@ -29,30 +32,69 @@ const Login = () => {
             .then(result => {
                 const user = result.user;
                 console.log(user);
-                Swal.fire({
-                    title: "User Login Successful.css",
-                    showclassName: {
-                        popup: `
+
+                // email verified
+                if (user.emailVerified) {
+                    Swal.fire({
+                        title: "User Login Successful",
+                        showclassName: {
+                            popup: `
                         animate__animated
                         animate__fadeInUp
                         animate__faster
                       `
-                    },
-                    hideclassName: {
-                        popup: `
+                        },
+                        hideclassName: {
+                            popup: `
                         animate__animated
                         animate__fadeOutDown
                         animate__faster
                       `
-                    }
-                });
-                navigate(from, { replace: true });
+                        }
+                    });
+                    navigate(from, { replace: true });
+                } else {
+                    Swal.fire({
+                        icon: "warning",
+                        title: "Email Not Verified",
+                        text: "Please verify your email before logging in.",
+                    });
+                }
             })
             .catch(error => {
                 console.error("Login Error:", error.message);
                 Swal.fire({
                     icon: 'error',
                     title: 'Login Failed',
+                    text: error.message,
+                });
+            });
+    }
+
+    const handleForgotPassword = () => {
+        console.log('get me email address', emailRef.current.value);
+
+        const email = emailRef.current.value;
+        if (!email) {
+            Swal.fire({
+                icon: "warning",
+                title: "Missing Email",
+                text: "Please enter your email before clicking 'Forgot your password?'",
+            });
+            return;
+        }
+        resetPassword(email)
+            .then(() => {
+                Swal.fire({
+                    icon: "success",
+                    title: "Reset Email Sent",
+                    text: "Check your inbox for reset instructions.",
+                });
+            })
+            .catch(error => {
+                Swal.fire({
+                    icon: "error",
+                    title: "Reset Failed",
                     text: error.message,
                 });
             });
@@ -85,6 +127,7 @@ const Login = () => {
                         <div>
                             <label className="block font-medium text-gray-700">Email</label>
                             <input
+                                ref={emailRef}
                                 type="email"
                                 name='email'
                                 className="input w-full rounded transition border hover:border-blue-500"
@@ -116,15 +159,17 @@ const Login = () => {
                             type="submit" value='Login' className='btn w-full mt-4 bg-[#4F46E5] text-white/80 rounded-xl' />
 
                         {/* Register Link */}
-                        <p className="text-center text-sm">
+                        <div className="text-center text-sm">
                             <span>
                                 Don't have an account?
                             </span>
                             <Link className="text-[#4F46E5]" to="/register"> Sign up</Link>
-                            <p className="text-[#4F46E5] my-2">
+                            <p
+                                onClick={handleForgotPassword}
+                                className="text-[#4F46E5] my-2 cursor-pointer">
                                 Forgot your password?
                             </p>
-                        </p>
+                        </div>
                     </form>
                 </div>
             </div>

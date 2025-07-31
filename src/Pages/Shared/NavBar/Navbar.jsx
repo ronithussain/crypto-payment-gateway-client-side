@@ -1,8 +1,7 @@
-
 import { RxCross1 } from "react-icons/rx";
 import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../../../Context/AuthProvider";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 
 
 
@@ -10,7 +9,7 @@ import { useContext, useState } from "react";
 
 const Navbar = () => {
     const { user, handleLogout: logOut } = useContext(AuthContext);
-    const [showDropdown, setShowDropdown] = useState(false);
+
 
     const handleLogout = () => {
         logOut()
@@ -62,7 +61,7 @@ const Navbar = () => {
 
                 {/* column----------------------------2 */}
                 <div>
-                    
+
 
                     {/* Navigation Links (Desktop View) */}
                     <div className="hidden lg:flex">
@@ -77,52 +76,48 @@ const Navbar = () => {
                 <div>
                     <div className='hidden sm:block'>
                         <div className="flex items-center gap-3  ">
-
-                            {/* DarkModeBtn */}
-
                             {/* conditional */}
-                            {user?.email ?
+                            {user?.email ? (
                                 <>
-                                    <div className="relative group">
+                                    <button className="flex items-center bg-black/0">
+                                        {user?.photoURL ? (
+                                            <div className="w-12">
+                                                <img
+                                                    className="rounded-full cursor-pointer transition duration-300 hover:scale-105"
+                                                    src={user?.photoURL}
+                                                    alt="User"
+                                                />
+                                            </div>
+                                        ) : (
+                                            <div className="w-12">
+                                                <img
+                                                    src={`https://ui-avatars.com/api/?name=${user?.displayName?.charAt(0)}&background=random`}
+                                                    alt="Default"
+                                                    className="rounded-full cursor-pointer transition duration-300 hover:scale-105"
+                                                />
+                                            </div>
+                                        )}
+                                    </button>
+
+                                    <div>
                                         <button
-                                            className="flex items-center  bg-black/0"
-                                            onClick={() => setShowDropdown(!showDropdown)}>
-                                            <img
-                                                className=" rounded-full sm:w-[60px] w-[50px] mr-2 cursor-pointer transition duration-300 hover:scale-105"
-                                                src={user?.photoURL}
-                                                alt=""
-                                            />
+                                            onClick={handleLogout}
+                                            className="animated-button px-4 py-2 rounded-md border-none bg-[#0BAAD7] transition-all duration-500 text-white"
+                                        >
+                                            Logout
                                         </button>
-                                        {
-                                            showDropdown && (
-                                                <div className="absolute right-0 mt-2 w-24  btn btn-sm shadow-lg rounded">
-                                                    <button
-                                                        onClick={handleLogout}
-                                                        className="block w-full text-left px-4 py-1 text-gray-500 bg-black/0"
-                                                    >
-                                                        Logout
-                                                    </button>
-                                                </div>
-                                            )
-                                        }
                                     </div>
-                                </> :
+                                </>
+                            ) : (
                                 <>
-                                    <Link to="login" className="animated-button btn border-none text-white bg-[#070F2B] transition-all duration-500">
+                                    <Link to="login" className="animated-button px-4 py-2 rounded-md border-none bg-[#0BAAD7] transition-all duration-500 text-white">
                                         <span>Sign In</span>
                                     </Link>
-                                    <Link to="register" className="animated-button btn border-none text-white bg-[#070F2B] transition-all duration-500">
+                                    <Link to="register" className="animated-button px-4 py-2 rounded-md border-none bg-[#0BAAD7] transition-all duration-500 text-white">
                                         <span>Sign Up</span>
                                     </Link>
                                 </>
-                            }
-                            <Link to="login" className="animated-button px-4 py-2 rounded-md border-none bg-[#0BAAD7]  transition-all duration-500 text-white">
-                                <span>Sign In</span>
-                            </Link>
-                            <Link to="register" className="animated-button px-4 py-2 rounded-md border-none bg-[#0BAAD7] transition-all duration-500 text-white">
-                                <span>Sign Up</span>
-                            </Link>
-
+                            )}
 
                         </div>
                     </div>
@@ -133,42 +128,53 @@ const Navbar = () => {
                         className="drawer-toggle hidden" />
                     <div className="drawer-side z-50 lg:hidden">
                         <label htmlFor="my-drawer-4" aria-label="close sidebar" className="drawer-open"></label>
-                        <ul className="menu bg-gradient-to-r from-[#131F3D] via-[#1A306F] to-[#21429e] backdrop-blur opacity-95 text-base-content min-h-full md:w-[50%] w-[40%] p-4">
+                        <ul className="menu bg-gradient-to-r from-[#131F3D] via-[#1A306F] to-[#21429e] backdrop-blur opacity-95 text-base-content min-h-full md:w-[50%] w-[70%] p-4">
 
                             {/* drawer login-register-or-faCross-close-button */}
                             <div className='flex justify-between items-center '>
                                 <div className="flex items-center">
                                     {user?.email ?
-                                    <>
-                                        <div className="relative group">
-                                            <button
-                                                className="flex items-center bg-black/0">
+                                        <>
+                                            <div className="relative group">
+                                                 <button className="flex items-center bg-black/0">
+                                        {user?.photoURL ? (
+                                            <div className="w-8">
                                                 <img
-                                                    className="rounded-full sm:w-[60px] w-[50px] mr-2 cursor-pointer transition duration-300 hover:scale-105"
-                                                    // src={user?.photoURL}
-                                                    alt=""
+                                                    className="rounded-full cursor-pointer transition duration-300 hover:scale-105"
+                                                    src={user?.photoURL}
+                                                    alt="User"
                                                 />
-                                            </button>
-                                        </div>
-                                        {/* DarkModeBtn */}
-                                    </> :
-                                    <>
-                                        {/* Sign In Button */}
-                                        <Link
-                                            onClick={handleDrawerClose}
-                                            to="login"
-                                            className="animated-button  text-xs rounded-md  text-gray-200 hover:text-[#0BAAD7]   transition-all duration-500"
-                                        >
-                                            Sign In
-                                        </Link>
-                                    </>
+                                            </div>
+                                        ) : (
+                                            <div className="w-8">
+                                                <img
+                                                    src={`https://ui-avatars.com/api/?name=${user?.displayName?.charAt(0) || 'U'}&background=random`}
+                                                    alt="Default"
+                                                    className="rounded-full cursor-pointer transition duration-300 hover:scale-105"
+                                                />
+                                            </div>
+                                        )}
+                                    </button>
+                                            </div>
+                                            {/* DarkModeBtn */}
+                                        </> :
+                                        <>
+                                            {/* Sign In Button */}
+                                            <Link
+                                                onClick={handleDrawerClose}
+                                                to="login"
+                                                className="animated-button  text-xs rounded-md  text-gray-200 hover:text-[#0BAAD7]   transition-all duration-500"
+                                            >
+                                                Sign In
+                                            </Link>
+                                        </>
                                     }
 
                                     {/* Logout Button */}
                                     <button
                                         // onClick={handleLogout}
                                         onClick={handleDrawerClose}
-                                        className="animated-button  text-xs rounded-md  text-gray-200 hover:text-[#0BAAD7]   transition-all duration-500 ml-4"
+                                        className="animated-button px-3 py-1 rounded-md border-none bg-[#0BAAD7] transition-all duration-500 text-white ml-3"
                                     >
                                         Logout
                                     </button>
