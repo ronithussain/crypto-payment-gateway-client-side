@@ -71,7 +71,7 @@ const Register = () => {
 
     return (
         <>
-            <div className="hero-content border w-full mx-auto">
+            <div data-aos="fade-right" className="hero-content border w-full mx-auto min-h-screen">
                 {/* Registration Card */}
                 <div
                     className="relative card-body w-full max-w-lg mx-auto shadow-2xl p-6 rounded-lg overflow-hidden bg-white"
@@ -94,14 +94,14 @@ const Register = () => {
                             onSubmit={handleSubmit(onSubmit)}
                             className="fieldset space-y-2">
                             {/* Name */}
-                            {/* <label className="fieldset-label mb-0 font-medium text-gray-700">Username</label>
+                            <label className="fieldset-label mb-0 font-medium text-gray-700">Username</label>
                             <input
                                 type="text"
                                 name='name'
                                 {...register("name", { required: true })}
                                 className="input w-full border hover:border-blue-500"
                                 placeholder="Enter your name" />
-                            {errors.name && <span className='text-red-500 text-xs'>Name is required</span>} */}
+                            {errors.name && <span className='text-red-500 text-xs'>Name is required</span>}
 
                             {/* Email */}
                             <label className="fieldset-label mb-0 font-medium text-gray-700">Email Address</label>
@@ -167,14 +167,14 @@ const Register = () => {
                             </div>
 
                             {/* Referral Code */}
-                            {/* <label className="fieldset-label mb-0 font-medium text-gray-700">Referral Code <span>(Optional)</span></label>
+                            <label className="fieldset-label mb-0 font-medium text-gray-700">Referral Code <span>(Optional)</span></label>
                                 <input
-                                    type="email"
-                                    name='email'
-                                    {...register("email", { required: true })}
+                                    type="number"
+                                    name='number'
+                                    {...register("number", { required: false })}
                                     className="input w-full rounded transition border hover:border-blue-500"
                                     placeholder="Enter referral code if you have one" />
-                                {errors.email && <span className='text-red-500 text-xs'>Email is required</span>} */}
+                                {/* {errors.email && <span className='text-red-500 text-xs'>Email is required</span>} */}
 
 
 

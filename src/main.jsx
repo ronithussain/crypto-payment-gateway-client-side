@@ -13,7 +13,7 @@ import AuthProvider from './Context/AuthProvider.jsx';
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AuthProvider>
-      <div className='bg-gradient-to-b from-[#02071A] via-[#0c1124] to-[#1a2238]'>
+      <div className='bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800'>
         <RouterProvider router={router} />
       </div>
     </AuthProvider>

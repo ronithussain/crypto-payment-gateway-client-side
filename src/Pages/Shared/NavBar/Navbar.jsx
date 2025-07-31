@@ -5,11 +5,8 @@ import { useContext } from "react";
 
 
 
-
-
 const Navbar = () => {
     const { user, handleLogout: logOut } = useContext(AuthContext);
-
 
     const handleLogout = () => {
         logOut()
@@ -25,18 +22,25 @@ const Navbar = () => {
     }
     // navOptions
     const navOptions = <>
-        <li><NavLink onClick={handleDrawerClose} className="nav-link hover:text-[#FF0000] hover:scale-105 transition duration-300 font-medium " to="/">Home</NavLink></li>
-
-        <>
-            <li><NavLink onClick={handleDrawerClose} className="nav-link hover:text-[#FF0000] hover:scale-105 transition duration-300 font-medium" to="/about">About Us</NavLink></li>
-            <li><NavLink onClick={handleDrawerClose} className="nav-link hover:text-[#FF0000] hover:scale-105 transition duration-300 font-medium" to="/contact">Contact</NavLink></li>
-            {/* <li>
-                <NavLink
-                    to="/dashboard/userProfile"
-                    onClick={handleDrawerClose} className="nav-link hover:text-[#FF0000] hover:scale-105 transition duration-300 font-medium" >DashBoard
-                </NavLink>
-            </li> */}
-        </>
+        <li>
+            <NavLink onClick={handleDrawerClose} className="nav-link hover:text-[#FF0000] hover:scale-105 transition duration-300 font-medium " to="/">Home</NavLink>
+        </li>
+        <li>
+            <NavLink onClick={handleDrawerClose} className="nav-link hover:text-[#FF0000] hover:scale-105 transition duration-300 font-medium" to="/about">About Us</NavLink>
+        </li>
+        <li>
+            <NavLink onClick={handleDrawerClose} className="nav-link hover:text-[#FF0000] hover:scale-105 transition duration-300 font-medium" to="/contact">Contact</NavLink>
+        </li>
+        {user?.email && (
+            <>
+                <li>
+                    <NavLink
+                        to="/dashboard"
+                        onClick={handleDrawerClose} className="nav-link hover:text-[#FF0000] hover:scale-105 transition duration-300 font-medium" >DashBoard
+                    </NavLink>
+                </li>
+            </>
+        )}
     </>;
 
     return (
@@ -102,7 +106,7 @@ const Navbar = () => {
                                     <div>
                                         <button
                                             onClick={handleLogout}
-                                            className="animated-button px-4 py-2 rounded-md border-none bg-[#0BAAD7] transition-all duration-500 text-white"
+                                            className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white sm:px-8 sm:py-4 px-4 py-2 rounded-xl font-semibold text-lg hover:from-cyan-600 hover:to-blue-600 transition-all duration-300 shadow-lg hover:shadow-cyan-500/25"
                                         >
                                             Logout
                                         </button>
@@ -110,10 +114,10 @@ const Navbar = () => {
                                 </>
                             ) : (
                                 <>
-                                    <Link to="login" className="animated-button px-4 py-2 rounded-md border-none bg-[#0BAAD7] transition-all duration-500 text-white">
+                                    <Link to="login" className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white sm:px-8 sm:py-4 px-4 py-2 rounded-xl font-semibold text-lg hover:from-cyan-600 hover:to-blue-600 transition-all duration-300 shadow-lg hover:shadow-cyan-500/25">
                                         <span>Sign In</span>
                                     </Link>
-                                    <Link to="register" className="animated-button px-4 py-2 rounded-md border-none bg-[#0BAAD7] transition-all duration-500 text-white">
+                                    <Link to="register" className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white sm:px-8 sm:py-4 px-4 py-2 rounded-xl font-semibold text-lg hover:from-cyan-600 hover:to-blue-600 transition-all duration-300 shadow-lg hover:shadow-cyan-500/25">
                                         <span>Sign Up</span>
                                     </Link>
                                 </>
@@ -136,25 +140,25 @@ const Navbar = () => {
                                     {user?.email ?
                                         <>
                                             <div className="relative group">
-                                                 <button className="flex items-center bg-black/0">
-                                        {user?.photoURL ? (
-                                            <div className="w-8">
-                                                <img
-                                                    className="rounded-full cursor-pointer transition duration-300 hover:scale-105"
-                                                    src={user?.photoURL}
-                                                    alt="User"
-                                                />
-                                            </div>
-                                        ) : (
-                                            <div className="w-8">
-                                                <img
-                                                    src={`https://ui-avatars.com/api/?name=${user?.displayName?.charAt(0) || 'U'}&background=random`}
-                                                    alt="Default"
-                                                    className="rounded-full cursor-pointer transition duration-300 hover:scale-105"
-                                                />
-                                            </div>
-                                        )}
-                                    </button>
+                                                <button className="flex items-center bg-black/0">
+                                                    {user?.photoURL ? (
+                                                        <div className="w-8">
+                                                            <img
+                                                                className="rounded-full cursor-pointer transition duration-300 hover:scale-105"
+                                                                src={user?.photoURL}
+                                                                alt="User"
+                                                            />
+                                                        </div>
+                                                    ) : (
+                                                        <div className="w-8">
+                                                            <img
+                                                                src={`https://ui-avatars.com/api/?name=${user?.displayName?.charAt(0) || 'U'}&background=random`}
+                                                                alt="Default"
+                                                                className="rounded-full cursor-pointer transition duration-300 hover:scale-105"
+                                                            />
+                                                        </div>
+                                                    )}
+                                                </button>
                                             </div>
                                             {/* DarkModeBtn */}
                                         </> :
@@ -163,21 +167,21 @@ const Navbar = () => {
                                             <Link
                                                 onClick={handleDrawerClose}
                                                 to="login"
-                                                className="animated-button  text-xs rounded-md  text-gray-200 hover:text-[#0BAAD7]   transition-all duration-500"
+                                                className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-2 py-1 rounded-md font-semibold text-xs hover:from-cyan-600 hover:to-blue-600 transition-all duration-300 shadow-md hover:shadow-cyan-500/25"
                                             >
                                                 Sign In
                                             </Link>
                                         </>
                                     }
-
                                     {/* Logout Button */}
                                     <button
-                                        // onClick={handleLogout}
-                                        onClick={handleDrawerClose}
-                                        className="animated-button px-3 py-1 rounded-md border-none bg-[#0BAAD7] transition-all duration-500 text-white ml-3"
+                                        onClick={handleLogout}
+
+                                        className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-2 py-1 rounded-md font-semibold text-xs hover:from-cyan-600 hover:to-blue-600 transition-all duration-300 shadow-md hover:shadow-cyan-500/25 ml-3"
                                     >
                                         Logout
                                     </button>
+
 
                                 </div>
                                 {/* Close Button */}

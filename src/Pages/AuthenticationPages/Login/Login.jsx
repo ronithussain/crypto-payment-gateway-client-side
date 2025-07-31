@@ -71,6 +71,7 @@ const Login = () => {
             });
     }
 
+    // Forgot password function implement;
     const handleForgotPassword = () => {
         console.log('get me email address', emailRef.current.value);
 
@@ -102,8 +103,8 @@ const Login = () => {
 
     return (
         <>
-            <div className="flex justify-center items-center px-4 min-h-screen ">
-                <div className=" w-full max-w-md bg-white shadow-lg rounded-lg p-6">
+            <div data-aos="fade-left" className="flex justify-center items-center px-4 min-h-screen ">
+                <div className=" w-full max-w-lg bg-white shadow-lg rounded-lg p-6">
                     <div>
                         <Link to="/">
                             <span className="text-sm flex items-center gap-x-1 text-gray-600">
@@ -132,6 +133,7 @@ const Login = () => {
                                 name='email'
                                 className="input w-full rounded transition border hover:border-blue-500"
                                 placeholder="Enter your email"
+                                autoComplete="email"
                             />
                         </div>
 
@@ -143,6 +145,7 @@ const Login = () => {
                                 name='password'
                                 className="input w-full rounded transition border hover:border-blue-500"
                                 placeholder="Enter your password"
+                                autoComplete="current-password"
                             />
                             <button
                                 type="button"
