@@ -12,6 +12,8 @@ import PrivateRoute from "./PrivateRoute";
 
 import DashBoard from "../Layouts/DashBoard";
 import UserProfile from "../Pages/Dashboards/UserRoutes/UserProfile";
+import Admin from "../Pages/Dashboards/AdminRoutes/Admin";
+import AllUsers from "../Pages/Dashboards/AdminRoutes/AllUsers";
 
 
 export const router = createBrowserRouter([
@@ -43,33 +45,13 @@ export const router = createBrowserRouter([
     ]
   },
   {
-    path: 'dashboard',
-    element: <DashBoard></DashBoard>,
+    path: '/dashboard',
+    element: <PrivateRoute><DashBoard/></PrivateRoute>,
     children: [
-      // {
-      //   path: 'dashboardSecond',
-      //   element: <DashboardSecond />
-      // },
       {
-        path: 'userProfile',
-        element: <UserProfile></UserProfile>
-      },
-      // {
-      //   path: 'myMovies',
-      //   element: <MyMovies />
-      // },
-      // {
-      //   path: 'allUsers',
-      //   element: <AllUsers />,
-      //   loader: () => fetch('https://assignment-10-server-side-tau.vercel.app/users')
-      // }, {
-      //   path: 'login',
-      //   element: <Login />
-      // },
-      // {
-      //   path: 'register',
-      //   element: <Register />
-      // }
+        path: 'allUsers',
+        element: <AllUsers></AllUsers>
+      }
     ]
   }
 ]);

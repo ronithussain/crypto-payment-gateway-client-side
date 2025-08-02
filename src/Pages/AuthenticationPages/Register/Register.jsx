@@ -7,9 +7,12 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import useAuth from "../../../Hooks/UseAuth";
 
+import useAxiosPublic from "../../../Hooks/useAxiosPublic";
+
 
 
 const Register = () => {
+    const axiosPublic = useAxiosPublic()
     const [showsPassword, setShowsPassword] = useState(false);
 
     const { register, handleSubmit, reset, watch, formState: { errors } } = useForm();
@@ -34,34 +37,35 @@ const Register = () => {
                         console.log('email varification send')
                     })
                     .then(() => {
-                        reset();
-                        Swal.fire({
-                            title: "User Login Successful.css",
-                            showclassName: {
-                                popup: ` animate__animated
+                        // create user entry in the database post api start here
+                        const userInfo = {
+                            name: data.name,
+                            email: data.email
+                        }
+                        axiosPublic.post('/users', userInfo)
+                            .then(res => {
+                                if (res.data.insertedId) {
+                                    console.log('user create in the database is successful')
+                                    reset();
+                                    Swal.fire({
+                                        title: "User Login Successful.css",
+                                        showclassName: {
+                                            popup: ` animate__animated
                                                     animate__fadeInUp
                                                     animate__faster `
-                            },
-                            hideclassName: {
-                                popup: ` animate__animated
+                                        },
+                                        hideclassName: {
+                                            popup: ` animate__animated
                                                      animate__fadeOutDown
                                                     animate__faster `
-                            }
-                        });
-                        navigate(from, { replace: true });
-                        // // create user entry in the database starts here............
-                        // const userInfo = {
-                        //     name: data.name,
-                        //     email: data.email,
-                        // }
-                        // axiosPublic.post('/users', userInfo)
-                        //     .then(res => {
-                        //         if (res.data.insertedId) {
-                        //             console.log("user added to the database")
+                                        }
+                                    });
+                                    navigate(from, { replace: true });
+                                }
+                            })
 
-                        //         }
-                        //     })
-                        // ends here
+                        // create user entry in the database post api  ends here
+
                     })
                     .catch(error => {
                         console.log('User updated failed!!!', error.message)
@@ -168,13 +172,13 @@ const Register = () => {
 
                             {/* Referral Code */}
                             <label className="fieldset-label mb-0 font-medium text-gray-700">Referral Code <span>(Optional)</span></label>
-                                <input
-                                    type="number"
-                                    name='number'
-                                    {...register("number", { required: false })}
-                                    className="input w-full rounded transition border hover:border-blue-500"
-                                    placeholder="Enter referral code if you have one" />
-                                {/* {errors.email && <span className='text-red-500 text-xs'>Email is required</span>} */}
+                            <input
+                                type="number"
+                                name='number'
+                                {...register("number", { required: false })}
+                                className="input w-full rounded transition border hover:border-blue-500"
+                                placeholder="Enter referral code if you have one" />
+                            {/* {errors.email && <span className='text-red-500 text-xs'>Email is required</span>} */}
 
 
 
