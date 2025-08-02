@@ -6,6 +6,7 @@ import { getAuth } from "firebase/auth";
 import { app } from "../Firebase/firebase.config";
 
 import { sendEmailVerification } from "firebase/auth";
+import useAxiosPublic from "../Hooks/useAxiosPublic";
 
 
 
@@ -17,7 +18,7 @@ const auth = getAuth(app);
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
-    // const axiosPublic = useAxiosPublic();
+    const axiosPublic = useAxiosPublic();
 
     const googleProvider = new GoogleAuthProvider();
     const handleRegister = (email, password) => {
@@ -46,9 +47,9 @@ const AuthProvider = ({ children }) => {
             return sendEmailVerification(auth.currentUser);
         }
     };
-     const resetPassword = (email) => {
-    return sendPasswordResetEmail(auth, email);
-  };
+    const resetPassword = (email) => {
+        return sendPasswordResetEmail(auth, email);
+    };
 
 
 
@@ -56,12 +57,26 @@ const AuthProvider = ({ children }) => {
     useEffect(() => {
         const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser);
-            console.log('current user', currentUser);
+            // jwt token work start here_____________________________
+            if (currentUser) {
+                // get token and store client
+                const userInfo = { email: currentUser.email }
+                axiosPublic.post('/jwt', userInfo)
+                    .then(res => {
+                        if (res.data.token) {
+                            localStorage.setItem('access-token', res.data.token);
+                        }
+                    })
+            } else {
+                // TODO: remove token (if token stored in the client side:Local storage, caching, in memory)
+                localStorage.removeItem('access-token');
+            }
+            // jwt token work ends here______________________________
             setLoading(false);
         })
         return () => unSubscribe();
 
-    }, [])
+    }, [axiosPublic])
 
 
 

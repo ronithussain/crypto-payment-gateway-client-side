@@ -28,7 +28,7 @@ const Modal = () => {
 
     const users = usersData?.result || [];
     const totalPages = usersData?.totalPages || 1;
-    console.log(users, 'all data to users ')
+    // console.log(users, 'all data to users ')
 
     const handlePageClick = (data) => {
         setCurrentPage(data.selected);
@@ -38,7 +38,7 @@ const Modal = () => {
     const handleMakeAdmin = id => {
         axiosSecure.patch(`/users/admin/${id}`)
             .then(res => {
-                console.log(res.data);
+                // console.log(res.data);
                 if (res.data.modifiedCount > 0) {
                     refetch();
                     Swal.fire({
@@ -73,14 +73,15 @@ const Modal = () => {
                     duration: 4000,
                     position: 'top-right',
                 });
+                console.log(error);
             });
     };
 
     // if (isLoading) return <p className="text-center">Loading...</p>;
     // if (isError) return <p className="text-center text-red-500">Something went wrong!</p>;
 
-    console.log("Users Data:", usersData);
-    console.log("Users Array:", users);
+    // console.log("Users Data:", usersData);
+    // console.log("Users Array:", users);
 
     return (
         <dialog id="user_modal" className="modal z-30">
@@ -92,7 +93,7 @@ const Modal = () => {
                         className="bg-black/70 border border-gray-200 focus:border-blue-300 focus:ring-2 focus:ring-gray-300 outline-none p-2 rounded-md w-[100%]  mx-auto block text-lg shadow-sm transition-all duration-300 mb-4"
                         onChange={(e) => setSearch(e.target.value)}
                     />
-                    <tr className="text-black py-2">All Users </tr>
+                    <h2 className="text-black py-2">All Users </h2>
                     <table className="table ">
                         {/* head */}
                         <thead className="bg-[#1D84B5] text-black/80">

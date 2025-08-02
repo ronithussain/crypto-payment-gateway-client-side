@@ -34,7 +34,7 @@ const Login = () => {
                 console.log(user);
 
                 // email verified
-                if (user.emailVerified) {
+                if (user) {
                     Swal.fire({
                         title: "User Login Successful",
                         showclassName: {

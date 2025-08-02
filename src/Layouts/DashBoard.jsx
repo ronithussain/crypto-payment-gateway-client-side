@@ -6,10 +6,11 @@ import AccountBalance from "../Pages/Dashboards/UserRoutes/AccountBalance";
 import Admin from "../Pages/Dashboards/AdminRoutes/Admin";
 import Modal from "../Pages/Dashboards/AdminRoutes/Modal";
 import AllUsers from "../Pages/Dashboards/AdminRoutes/AllUsers";
+import useAdmin from "../Hooks/useAdmin";
 
 
 const DashBoard = () => {
-    const isAdmin = false;
+    const [isAdmin] = useAdmin();
 
     const { user, handleLogout: logOut } = useAuth();
     console.log(user);
@@ -32,7 +33,7 @@ const DashBoard = () => {
                         <h3 className="sm:text-3xl text-xl  font-bold">Dashboard</h3>
                         <p className="sm:text-base text-xs mb-4 text-gray-500">
                             {
-                                isAdmin ? "Welcome to your User Dashboard" : " You are viewing the Admin Dashboard"
+                                isAdmin ? "You are viewing the Admin Dashboard" : "Welcome to your User Dashboard"
                             }
                         </p>
                         <Link to='/'>
@@ -49,11 +50,10 @@ const DashBoard = () => {
                         {
                             isAdmin ?
                                 <>
-
+                                    <AllUsers />
                                 </>
                                 :
                                 <>
-                                    <AllUsers />
                                 </>
                         }
                         <button
@@ -74,27 +74,28 @@ const DashBoard = () => {
             <div className="flex flex-col sm:flex-row gap-x-8 min-h-screen border border-yellow-300 container mx-auto sm:p-4 p-2">
 
                 {
-                    isAdmin ? <>
-                        <div className=" flex-1 min-h-screen  border border-red-500">
-                            <AccountBalance></AccountBalance>
-                            <UserProfile></UserProfile>
-                        </div>
-                        <div className="sm:w-80 max-w-2xl border border-white">
-                            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Harum assumenda, voluptates voluptas, nostrum numquam est repellat maiores quia delectus rerum dolores cum sequi illo. Iusto voluptatem consectetur dignissimos accusamus omnis.</p>
-                        </div>
-                    </>
-                        :
+                    isAdmin ? (
                         <>
-
-                            <div className=" flex-1 min-h-screen  border border-red-500">
-                                <Admin></Admin>
+                            <div className="flex-1 min-h-screen border border-red-500">
+                                <Admin />
                             </div>
                             <div className="sm:w-80 max-w-2xl border border-white">
-                                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Harum assumenda, voluptates voluptas, nostrum numquam est repellat maiores quia delectus rerum dolores cum sequi illo. Iusto voluptatem consectetur dignissimos accusamus omnis.</p>
+                                <p>Admin info here...</p>
                             </div>
-
                         </>
+                    ) : (
+                        <>
+                            <div className="flex-1 min-h-screen border border-red-500">
+                                <AccountBalance />
+                                <UserProfile />
+                            </div>
+                            <div className="sm:w-80 max-w-2xl border border-white">
+                                <p>User info here...</p>
+                            </div>
+                        </>
+                    )
                 }
+
 
             </div>
             {/* <Outlet /> */}
