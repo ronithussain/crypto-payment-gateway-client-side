@@ -5,8 +5,8 @@ import { FaArrowRight } from "react-icons/fa";
 
 const Banner = () => {
     return (
-        <div className="">
-            <div className="sm:w-10/12 mx-auto min-h-screen flex items-center justify-center text-black">
+        <div>
+            <div className="sm:w-10/12 my-14 sm:my-0 mx-auto min-h-full lg:min-h-screen flex items-center justify-center text-black">
 
                 {/* Banner Section */}
                 <div className="flex flex-col lg:flex-row items-center gap-8">

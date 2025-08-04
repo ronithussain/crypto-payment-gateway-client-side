@@ -103,7 +103,7 @@ const Login = () => {
 
     return (
         <>
-            <div data-aos="fade-left" className="flex justify-center items-center px-4 min-h-screen ">
+            <div data-aos="fade-left" className="flex justify-center items-center px-4 min-h-full lg:min-h-screen ">
                 <div className=" w-full max-w-lg bg-white shadow-lg rounded-lg p-6">
                     <div>
                         <Link to="/">

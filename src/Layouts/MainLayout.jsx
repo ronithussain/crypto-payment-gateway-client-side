@@ -5,6 +5,7 @@ import Footer from "../Pages/Shared/Footer/Footer";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { useEffect } from "react";
+import TelegramButton from "../Components/TelegramButton/TelegramButton";
 
 
 
@@ -23,8 +24,9 @@ const MainLayout = () => {
     return (
         <div>
             <Navbar/>
-             <main className='min-h-[calc(100vh)]'>
+             <main className='min-h-[calc(100vh)] pt-26'>
                 <Outlet></Outlet>
+                <TelegramButton/>
             </main>
             <Footer/>
         </div>

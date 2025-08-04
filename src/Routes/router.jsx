@@ -7,13 +7,14 @@ import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 import Login from "../Pages/AuthenticationPages/Login/Login";
 import Register from "../Pages/AuthenticationPages/Register/Register";
 import About from "../Components/About/About";
-import Contact from "../Components/Contact/Contact";
 import PrivateRoute from "./PrivateRoute";
 
 import DashBoard from "../Layouts/DashBoard";
-import UserProfile from "../Pages/Dashboards/UserRoutes/UserProfile";
-import Admin from "../Pages/Dashboards/AdminRoutes/Admin";
 import AllUsers from "../Pages/Dashboards/AdminRoutes/AllUsers";
+import DepositWithdraw from "../Pages/Dashboards/UserRoutes/DepositWithdraw";
+import AccountBalance from "../Pages/Dashboards/UserRoutes/AccountBalance";
+import DailyProfitGenerator from "../Pages/Dashboards/UserRoutes/DailyProfitGenerator";
+import ReferralProgram from "../Pages/Dashboards/UserRoutes/ReferralProgram";
 
 
 export const router = createBrowserRouter([
@@ -38,10 +39,6 @@ export const router = createBrowserRouter([
         path: '/about',
         element: <PrivateRoute><About /></PrivateRoute>
       },
-      {
-        path: '/contact',
-        element: <Contact></Contact>
-      },
     ]
   },
   {
@@ -51,6 +48,22 @@ export const router = createBrowserRouter([
       {
         path: 'allUsers',
         element: <AllUsers></AllUsers>
+      },
+      {
+        index: true,
+        element: <AccountBalance></AccountBalance>
+      },
+      {
+        path: 'transaction',
+        element: <DepositWithdraw></DepositWithdraw>
+      },
+      {
+        path: 'dailyProfitGenerator',
+        element: <DailyProfitGenerator></DailyProfitGenerator>
+      },
+      {
+        path: 'referralProgram',
+        element: <ReferralProgram></ReferralProgram>
       }
     ]
   }

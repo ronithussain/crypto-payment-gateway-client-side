@@ -2,6 +2,7 @@ import { RxCross1 } from "react-icons/rx";
 import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../../../Context/AuthProvider";
 import { useContext } from "react";
+import { FiLogOut } from "react-icons/fi";
 
 
 
@@ -28,9 +29,6 @@ const Navbar = () => {
         <li>
             <NavLink onClick={handleDrawerClose} className="nav-link hover:text-[#FF0000] hover:scale-105 transition duration-300 font-medium" to="/about">About Us</NavLink>
         </li>
-        <li>
-            <NavLink onClick={handleDrawerClose} className="nav-link hover:text-[#FF0000] hover:scale-105 transition duration-300 font-medium" to="/contact">Contact</NavLink>
-        </li>
         {user?.email && (
             <>
                 <li>
@@ -44,7 +42,7 @@ const Navbar = () => {
     </>;
 
     return (
-        <div className='fixe top-0 z-50 bg-opacity-80  backdrop-blur py-4 sm:px-0 px-2 w-[100%] '>
+        <div className='fixed top-0 z-50 bg-opacity-80  backdrop-blur py-4 sm:px-0 px-2 w-[100%] '>
             <div className="sm:w-10/12 mx-auto navbar flex items-center justify-between px-0 ">
 
                 {/* column----------------------------1 */}
@@ -106,9 +104,10 @@ const Navbar = () => {
                                     <div>
                                         <button
                                             onClick={handleLogout}
-                                            className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white sm:px-8 sm:py-4 px-4 py-2 rounded-xl font-semibold text-lg hover:from-cyan-600 hover:to-blue-600 transition-all duration-300 shadow-lg hover:shadow-cyan-500/25"
+                                            className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white sm:px-8 sm:py-4 px-4 py-2 rounded-xl font-semibold text-lg hover:from-cyan-600 hover:to-blue-600 transition-all duration-300 shadow-lg hover:shadow-cyan-500/25 flex items-center gap-x-2"
                                         >
-                                            Logout
+                                            <FiLogOut className="text-xl" />
+                                            <span className="hidden sm:inline">Logout</span>
                                         </button>
                                     </div>
                                 </>
@@ -177,9 +176,10 @@ const Navbar = () => {
                                     <button
                                         onClick={handleLogout}
 
-                                        className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-2 py-1 rounded-md font-semibold text-xs hover:from-cyan-600 hover:to-blue-600 transition-all duration-300 shadow-md hover:shadow-cyan-500/25 ml-3"
+                                        className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-2 py-1 rounded-md font-semibold text-xs hover:from-cyan-600 hover:to-blue-600 transition-all duration-300 shadow-md hover:shadow-cyan-500/25 ml-3 flex items-center gap-x-0.5"
                                     >
-                                        Logout
+                                        <FiLogOut className="text-base" />
+                                            <span className="hidden sm:inline">Logout</span>
                                     </button>
 
 

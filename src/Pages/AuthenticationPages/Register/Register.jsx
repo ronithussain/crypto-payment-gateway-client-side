@@ -75,7 +75,7 @@ const Register = () => {
 
     return (
         <>
-            <div data-aos="fade-right" className="hero-content border w-full mx-auto min-h-screen">
+            <div data-aos="fade-right" className="hero-content w-full mx-auto min-h-full lg:min-h-screen ">
                 {/* Registration Card */}
                 <div
                     className="relative card-body w-full max-w-lg mx-auto shadow-2xl p-6 rounded-lg overflow-hidden bg-white"
