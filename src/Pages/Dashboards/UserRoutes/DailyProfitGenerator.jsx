@@ -186,79 +186,80 @@ const DailyProfitGenerator = () => {
     ];
 
     return (
-        <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
-            <div className="text-center mb-6">
-                <div className="bg-gradient-to-r from-purple-500 to-pink-500 p-3 rounded-full w-fit mx-auto mb-4">
-                    <Gift className="h-8 w-8 text-white" />
+        <div className='max-w-7xl mx-auto sm:px-0 px-2'>
+            <div className="bg-white rounded-xl shadow-lg sm:p-6 p-4 border border-gray-100">
+                <div className="text-center mb-6">
+                    <div className="bg-gradient-to-r from-purple-500 to-pink-500 p-3 rounded-full w-fit mx-auto mb-4">
+                        <Gift className="h-8 w-8 text-white" />
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-900">Task Center</h3>
+                    <p className="text-gray-600 mt-2">Complete tasks to earn extra rewards</p>
                 </div>
-                <h3 className="text-xl font-bold text-gray-900">Task Center</h3>
-                <p className="text-gray-600 mt-2">Complete tasks to earn extra rewards</p>
-            </div>
 
-            <div className="space-y-4">
-                {staticTasks.map((task) => {
-                    const Icon = task.icon;
-                    return (
-                        <div
-                            key={task.id}
-                            className={`p-4 rounded-lg border-2 transition-all duration-200 ${task.completed
+                <div className="space-y-4">
+                    {staticTasks.map((task) => {
+                        const Icon = task.icon;
+                        return (
+                            <div
+                                key={task.id}
+                                className={`p-4 rounded-lg border-2 transition-all duration-200 ${task.completed
                                     ? 'bg-emerald-50 border-emerald-200'
                                     : 'bg-gray-50 border-gray-200 hover:border-blue-300 hover:bg-blue-50'
-                                }`}
-                        >
-                            <div className="flex flex-col  md:flex-row lg:items-center justify-between sm:gap-0 gap-4">
-                                <div className="flex flex-col sm:flex-row items-start sm:items-center sm:gap-4 gap-2">
-                                    <div className={`p-3 rounded-full ${task.color}`}>
-                                        <Icon className="h-6 w-6 text-white" />
-                                    </div>
+                                    }`}
+                            >
+                                <div className="flex flex-col  md:flex-row lg:items-center justify-between sm:gap-0 gap-4">
+                                    <div className="flex flex-col sm:flex-row items-start sm:items-center sm:gap-4 gap-2">
+                                        <div className={`p-3 rounded-full ${task.color}`}>
+                                            <Icon className="h-6 w-6 text-white" />
+                                        </div>
 
-                                    <div>
-                                        <h4 className="font-semibold text-gray-900">{task.title} sdf</h4>
-                                        <p className="text-sm text-gray-600 mt-1">{task.description}</p>
-                                        <div className="flex items-center space-x-2 mt-2">
-                                            <span className="text-sm font-medium text-emerald-600">
-                                                Reward: ${task.reward.toFixed(2)}
-                                            </span>
-                                            <span
-                                                className={`px-2 py-1 text-xs rounded-full font-medium ${task.type === 'daily'
+                                        <div>
+                                            <h4 className="font-semibold text-gray-900">{task.title} sdf</h4>
+                                            <p className="text-sm text-gray-600 mt-1">{task.description}</p>
+                                            <div className="flex items-center space-x-2 mt-2">
+                                                <span className="text-sm font-medium text-emerald-600">
+                                                    Reward: ${task.reward.toFixed(2)}
+                                                </span>
+                                                <span
+                                                    className={`px-2 py-1 text-xs rounded-full font-medium ${task.type === 'daily'
                                                         ? 'bg-blue-100 text-blue-800'
                                                         : task.type === 'social'
                                                             ? 'bg-purple-100 text-purple-800'
                                                             : 'bg-emerald-100 text-emerald-800'
-                                                    }`}
-                                            >
-                                                {task.type}
-                                            </span>
+                                                        }`}
+                                                >
+                                                    {task.type}
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div className="flex items-center">
-                                    {task.completed ? (
-                                        <div className="flex items-center space-x-2 text-emerald-600">
-                                            <CheckCircle className="h-6 w-6" />
-                                            <span className="font-medium">Completed</span>
-                                        </div>
-                                    ) : (
-                                        <button className="px-4 py-2 rounded-lg font-medium bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700 transform hover:scale-105 transition-all duration-200">
-                                            Complete Task
-                                        </button>
-                                    )}
+                                    <div className="flex items-center">
+                                        {task.completed ? (
+                                            <div className="flex items-center space-x-2 text-emerald-600">
+                                                <CheckCircle className="h-6 w-6" />
+                                                <span className="font-medium">Completed</span>
+                                            </div>
+                                        ) : (
+                                            <button className="px-4 py-2 rounded-lg font-medium bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700 transform hover:scale-105 transition-all duration-200">
+                                                Complete Task
+                                            </button>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    );
-                })}
-            </div>
+                        );
+                    })}
+                </div>
 
-            <div className="mt-6 p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg">
-                <h4 className="font-medium text-gray-900 mb-2">Task Guidelines</h4>
-                <ul className="text-sm text-gray-700 space-y-1">
-                    <li>• Daily tasks reset every 24 hours</li>
-                    <li>• Social tasks require verification</li>
-                    <li>• Profile tasks are one-time completion</li>
-                    <li>• Rewards are added instantly to your balance</li>
-                </ul>
+                <div className="mt-6 p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg">
+                    <h4 className="font-medium text-gray-900 mb-2">Task Guidelines</h4>
+                    <ul className="text-sm text-gray-700 space-y-1">
+                        <li>• Social tasks require verification</li>
+                        <li>• Profile tasks are one-time completion</li>
+                        <li>• Rewards are added instantly to your balance</li>
+                    </ul>
+                </div>
             </div>
         </div>
     );

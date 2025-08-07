@@ -7,16 +7,16 @@ import LoadingSpinner from "../Context/LoadingSpinner";
 const AdminRoute = ({ children }) => {
     const { user, loading } = useAuth();
     const [isAdmin, isAdminLoading] = useAdmin();
-
+ 
     const location = useLocation();
     // console.log(location)
     if (loading || isAdminLoading) {
         return <LoadingSpinner />
     }
-    if (!user && isAdmin) {
-        return <Navigate to="/login" state={{ from: location }} replace />;
+    if (user && isAdmin) {
+        return children;
     }
-    return children;
+    return <Navigate to="/login" state={{ from: location }} replace />;
 
 };
 

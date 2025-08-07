@@ -3,22 +3,13 @@ import useAuth from '../../../Hooks/UseAuth';
 const UserProfile = () => {
     const {user} = useAuth();
     return (
-        <div className=" w-full p-14 ">
+        <div className="  max-w-7xl w-full mx-auto sm:py-8 px-2 sm:px-0">
             {/* User Info */}
-            <div className="flex flex-col justify-center items-center">
-                <img
-                    src={user?.photoURL}
-                    alt={user?.displayName}
-                    className="sm:w-32 sm:h-32 rounded-full border-4 border-gray-400 brightness-75 contrast-100"
-                />
-                <h2 className="text-xs sm:text-3xl font-bold mt-4 text-gray-500">
-                    Hi, <span className="text-gray-700">{user?.displayName}</span> Welcome Back!
+            <div className="flex flex-col justify-center mb-4">
+                <h2 className="text-xl sm:text-3xl font-bold text-gray-300">
+                    Hi, <span className="bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">{user?.displayName}</span> Welcome Back!
                 </h2>
-                <p className="text-xs sm:text-lg text-gray-500">{user?.email}</p>
-            </div>
-
-            {/* divider */}
-            <div className="divider"></div>    
+            </div>  
         </div>
     );
 };

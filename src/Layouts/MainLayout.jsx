@@ -24,7 +24,7 @@ const MainLayout = () => {
     return (
         <div>
             <Navbar/>
-             <main className='min-h-[calc(100vh)] pt-26'>
+             <main className='min-h-[calc(100vh)] pt-28 pb-8'>
                 <Outlet></Outlet>
                 <TelegramButton/>
             </main>

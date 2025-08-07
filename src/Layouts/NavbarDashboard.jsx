@@ -3,12 +3,15 @@ import { HiMenu } from "react-icons/hi";
 import { RxCross1 } from "react-icons/rx";
 import useAuth from "../Hooks/UseAuth";
 import { FiLogOut } from "react-icons/fi";
+import { BiDollar } from "react-icons/bi";
 
-// import useAdmin from "../Hooks/useAdmin";
+import useAdmin from "../Hooks/useAdmin";
+import AllUsers from "../Pages/Dashboards/AdminRoutes/AllUsers";
+
 
 const NavbarDashboard = () => {
     const { handleLogout } = useAuth();
-    // const [isAdmin] = useAdmin();
+    const [isAdmin] = useAdmin();
 
     //  closed drawer
     const handleDrawerClose = () => {
@@ -17,23 +20,88 @@ const NavbarDashboard = () => {
 
     const navLinks = (
         <>
-            <li>
-                <NavLink onClick={handleDrawerClose} to="/dashboard/accountBalance" className="hover:text-yellow-400 font-medium">Home</NavLink>
-            </li>
-            <li>
-                <NavLink onClick={handleDrawerClose} to="/dashboard/transaction" className="hover:text-yellow-400 font-medium">Transaction</NavLink>
-            </li>
-            <li>
-                <NavLink onClick={handleDrawerClose} to="/dashboard/dailyProfitGenerator" className="hover:text-yellow-400 font-medium">Daily Profit Generator</NavLink>
-            </li>
-            <li>
-                <NavLink onClick={handleDrawerClose} to="/dashboard/referralProgram" className="hover:text-yellow-400 font-medium">Referral Promotion</NavLink>
-            </li>
+            {
+                isAdmin ? (
+                    <>
+                        <li>
+                            <NavLink
+                                onClick={handleDrawerClose}
+                                to="/dashboard/adminProfile"
+                                className={({ isActive }) =>
+                                    `font-medium ${isActive ? "text-yellow-400 underline" : "hover:text-yellow-400"}`
+                                }
+                            >
+                                Admin Profile
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
+                                onClick={handleDrawerClose}
+                                to="/dashboard/pendingTransaction"
+                                className={({ isActive }) =>
+                                    `font-medium ${isActive ? "text-yellow-400 underline" : "hover:text-yellow-400"}`
+                                }
+                            >
+                                Pending Tr
+                            </NavLink>
+                        </li>
+                    </>
+                ) : (
+                    <>
+                        <li>
+                            <NavLink
+                                onClick={handleDrawerClose}
+                                to="/dashboard/accountBalance"
+                                className={({ isActive }) =>
+                                    `font-medium ${isActive ? "text-yellow-400 underline" : "hover:text-yellow-400"}`
+                                }
+                            >
+                                Account Balance
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
+                                onClick={handleDrawerClose}
+                                to="/dashboard/transaction"
+                                className={({ isActive }) =>
+                                    `font-medium ${isActive ? "text-yellow-400 underline" : "hover:text-yellow-400"}`
+                                }
+                            >
+                                Deposit/Withdraw
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
+                                onClick={handleDrawerClose}
+                                to="/dashboard/dailyProfitGenerator"
+                                className={({ isActive }) =>
+                                    `font-medium ${isActive ? "text-yellow-400 underline" : "hover:text-yellow-400"}`
+                                }
+                            >
+                                Daily Profit Generator
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
+                                onClick={handleDrawerClose}
+                                to="/dashboard/referralProgram"
+                                className={({ isActive }) =>
+                                    `font-medium ${isActive ? "text-yellow-400 underline" : "hover:text-yellow-400"}`
+                                }
+                            >
+                                Referral Promotion
+                            </NavLink>
+                        </li>
+                    </>
+                )
+            }
         </>
     );
 
+
     return (
         <div className="drawer drawer-end z-50">
+
             <input id="dashboard-drawer" type="checkbox" className="drawer-toggle" />
             <div className="drawer-content w-full">
                 {/* Navbar */}
@@ -45,9 +113,12 @@ const NavbarDashboard = () => {
                                 <HiMenu className="text-2xl text-white" />
                             </label>
                             <Link to="/">
-                                <h2 className="text-xl sm:text-2xl font-bold tracking-wide">
-                                    Bank<span className="text-yellow-400">Profit</span>
-                                </h2>
+                                <div className="flex items-center">
+                                    <BiDollar className="text-3xl text-[#32bbca]" />
+                                    <h2 className="text-xl sm:text-2xl font-bold tracking-wide">
+                                        Bank<span className="text-yellow-400">Profit</span>
+                                    </h2>
+                                </div>
                             </Link>
                         </div>
 
@@ -59,7 +130,8 @@ const NavbarDashboard = () => {
                         {/* Right: Balance & Logout */}
                         <div className="flex items-center gap-4 text-sm">
                             <span className="hidden sm:block">
-                                Balance: <span className="font-semibold text-yellow-300">
+                                {isAdmin && <AllUsers />}
+                                <span className="font-semibold text-yellow-300">
                                     {/* ${balance || "0.00"} */}
                                 </span>
                             </span>

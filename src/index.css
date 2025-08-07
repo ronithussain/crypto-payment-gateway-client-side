@@ -32,7 +32,7 @@
     height: 2px;
     width: 100%;
     background-color: #2EACF1;
-  
+
 }
 
 .nav-link:hover::after,
@@ -41,3 +41,33 @@
 }
 
 /* nav-link class ends here */
+
+/* responser component animation start here */
+.gradient-bg {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.card-hover {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.profit-card {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+@keyframes scroll-left {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+/* responser component animation ends here */

@@ -67,6 +67,77 @@ const About = () => {
                         </p>
                     </div>
                 </section>
+                {/* Investment Opportunities */}
+                <section class="mb-16">
+                    <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+                        <div class="bg-gray-800 text-white p-6">
+                            <h3 class="text-2xl font-bold text-center">Investment Opportunities</h3>
+                        </div>
+                        <div class="p-6">
+                            <div class="overflow-x-auto">
+                                <table class="w-full">
+                                    <thead>
+                                        <tr class="border-b-2 border-gray-200">
+                                            <th class="text-left py-4 px-6 font-semibold text-gray-800">Investment (USD)</th>
+                                            <th class="text-left py-4 px-6 font-semibold text-gray-800">Profit Rate (%)</th>
+                                            <th class="text-left py-4 px-6 font-semibold text-gray-800">Profit (USD)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="investment-row border-b border-gray-100">
+                                            <td class="py-4 px-6 font-semibold text-blue-600">$50</td>
+                                            <td class="py-4 px-6 text-green-600 font-semibold">7%</td>
+                                            <td class="py-4 px-6 font-bold text-gray-800">
+                                                <div class="flex items-center">
+                                                    <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12"></path>
+                                                    </svg>
+                                                    $3.50
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr class="investment-row border-b border-gray-100">
+                                            <td class="py-4 px-6 font-semibold text-blue-600">$140</td>
+                                            <td class="py-4 px-6 text-green-600 font-semibold">16%</td>
+                                            <td class="py-4 px-6 font-bold text-gray-800">
+                                                <div class="flex items-center">
+                                                    <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12"></path>
+                                                    </svg>
+                                                    $22.40
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr class="investment-row border-b border-gray-100">
+                                            <td class="py-4 px-6 font-semibold text-blue-600">$300</td>
+                                            <td class="py-4 px-6 text-green-600 font-semibold">33%</td>
+                                            <td class="py-4 px-6 font-bold text-gray-800">
+                                                <div class="flex items-center">
+                                                    <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12"></path>
+                                                    </svg>
+                                                    $99.00
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr class="investment-row">
+                                            <td class="py-4 px-6 font-semibold text-blue-600">$800</td>
+                                            <td class="py-4 px-6 text-green-600 font-semibold">70%</td>
+                                            <td class="py-4 px-6 font-bold text-gray-800">
+                                                <div class="flex items-center">
+                                                    <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12"></path>
+                                                    </svg>
+                                                    $560.00
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
 
                 {/* Additional sections like Investment Table, Secure Payment, CTA can be converted similarly... */}
             </main>
