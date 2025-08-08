@@ -7,14 +7,13 @@ import UserProfile from "./UserProfile";
 import PurchaseInfo from "./PurchaseInfo";
 import useDbUser from '../../../Hooks/useDbUser'
 import ProfitTask from '../../../Pages/Dashboards/UserRoutes/ProfitTask'
-import NavbarDashboard from "../../../Layouts/NavbarDashboard";
 
 const AccountBalance = () => {
-  const { dbUser, userLoading } = useDbUser();
+  const { dbUser } = useDbUser();
   const axiosSecure = useAxiosSecure();
 
   // Step: fetch user balance info
-  const { data: userData = {}, isLoading: balanceLoading } = useQuery({
+  const { data: userData = {}, } = useQuery({
     queryKey: ['userBalance', dbUser?._id],
     enabled: !!dbUser?._id,
     queryFn: async () => {
@@ -25,9 +24,6 @@ const AccountBalance = () => {
 
   console.log(userData);
 
-  if (userLoading || balanceLoading) {
-    return <div className="text-center py-10">Loading...</div>;
-  }
 
   const balance = userData?.balance || 0;
   const totalProfit = 0; // later dynamic logic can be added here
@@ -60,7 +56,6 @@ const AccountBalance = () => {
       </div>
       <ProfitTask/>
       <PurchaseInfo />
-      <NavbarDashboard userData={userData}/>
     </>
   );
 };

@@ -18,13 +18,13 @@ const SocialLogin = () => {
                 const userInfo = {
                     email: result.user?.email,
                     name: result.user?.displayName,
-                    image:result.user?.photoURL,
+                    image: result.user?.photoURL,
                 }
                 axiosPublic.post('/users', userInfo)
-                .then(res => {
-                    console.log(res.data);
-                    navigate('/');
-                })
+                    .then(res => {
+                        console.log(res.data);
+                        navigate('/');
+                    })
                 //------------------------------------
             })
             .catch(error => {

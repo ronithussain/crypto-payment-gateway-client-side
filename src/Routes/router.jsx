@@ -27,77 +27,38 @@ import PendingTransactions from "../Pages/Dashboards/AdminRoutes/PendingTransact
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <MainLayout></MainLayout>,
-    errorElement: <ErrorPage></ErrorPage>,
+    element: <MainLayout />,
+    errorElement: <ErrorPage />,
     children: [
-      {
-        path: "/",
-        element: <Home />
-      },
-      {
-        path: '/login',
-        element: <Login></Login>,
-      },
-      {
-        path: '/register',
-        element: <Register></Register>
-      },
-      {
-        path: '/about',
-        element: <About />
-      },
-    ]
+      { path: "/", element: <Home /> },
+      { path: "/login", element: <Login /> },
+      { path: "/register", element: <Register /> },
+      { path: "/about", element: <About /> },
+    ],
   },
   {
-    path: '/dashboard',
-    element: <PrivateRoute><DashBoard /></PrivateRoute>,
+    path: "/dashboard",
+    element: (
+      <PrivateRoute>
+        <DashBoard />
+      </PrivateRoute>
+    ),
     children: [
-      {
-        path: 'accountBalance',
-        element: <PrivateRoute><AccountBalance /></PrivateRoute>
-      },
-      {
-        path: 'transaction',
-        element: <PrivateRoute><DepositWithdraw /></PrivateRoute>
-      },
-      {
-        path: 'dailyProfitGenerator',
-        element: <PrivateRoute><DailyProfitGenerator /></PrivateRoute>
-      },
-      {
-        path: 'referralProgram',
-        element: <PrivateRoute><ReferralProgram /></PrivateRoute>
-      },
+      // User Routes
+      { path: "accountBalance", element: <AccountBalance /> },
+      { path: "transaction", element: <DepositWithdraw /> },
+      { path: "dailyProfitGenerator", element: <DailyProfitGenerator /> },
+      { path: "referralProgram", element: <ReferralProgram /> },
 
-      // ✅ Payment pages inside dashboard
-      {
-        path: 'payment/bitcoin',
-        element: <PrivateRoute><BitcoinPage /></PrivateRoute>
-      },
-      {
-        path: 'payment/usdt',
-        element: <PrivateRoute><USDTPage /></PrivateRoute>
-      },
-      {
-        path: 'payment/ethereum',
-        element: <PrivateRoute><EthereumPage /></PrivateRoute>
-      },
+      // Payment Pages (Already inside PrivateRoute, no need to wrap again)
+      { path: "payment/bitcoin", element: <BitcoinPage /> },
+      { path: "payment/usdt", element: <USDTPage /> },
+      { path: "payment/ethereum", element: <EthereumPage /> },
 
-
-      // admin all routes_________________________________________________:
-      {
-        path: 'adminProfile',
-        element: <AdminRoute><AdminProfile /></AdminRoute>
-      },
-      {
-        path: 'allUsers',
-        element: <AdminRoute><AllUsers /></AdminRoute>
-      },
-      {
-        path: 'pendingTransaction',
-        element: <AdminRoute><PendingTransactions/></AdminRoute>
-      },
-
-    ]
-  }
+      // Admin Routes
+      { path: "adminProfile", element: <AdminRoute><AdminProfile /></AdminRoute> },
+      { path: "allUsers", element: <AdminRoute><AllUsers /></AdminRoute> },
+      { path: "pendingTransaction", element: <AdminRoute><PendingTransactions /></AdminRoute> },
+    ],
+  },
 ]);
