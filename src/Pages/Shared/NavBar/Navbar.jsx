@@ -1,12 +1,11 @@
 import { RxCross1 } from "react-icons/rx";
-import { Link, NavLink } from "react-router-dom";
-import { AuthContext } from "../../../Context/AuthProvider";
-import { useContext } from "react";
+import { Link, NavLink } from "react-router-dom"
 import { FiLogOut } from "react-icons/fi";
 import useAdmin from "../../../Hooks/useAdmin";
+import useAuth from "../../../Hooks/UseAuth";
 
 const Navbar = () => {
-    const { user, handleLogout: logOut } = useContext(AuthContext);
+    const { user, handleLogout: logOut } = useAuth();
     const [isAdmin, isAdminLoading] = useAdmin();
 
 

@@ -10,7 +10,7 @@ import About from "../Components/About/About";
 import PrivateRoute from "./PrivateRoute";
 
 import DashBoard from "../Layouts/DashBoard";
-import AllUsers from "../Pages/Dashboards/AdminRoutes/AllUsers";
+// import AllUsers from "../Pages/Dashboards/AdminRoutes/AllUsers";
 import DepositWithdraw from "../Pages/Dashboards/UserRoutes/DepositWithdraw";
 import AccountBalance from "../Pages/Dashboards/UserRoutes/AccountBalance";
 import DailyProfitGenerator from "../Pages/Dashboards/UserRoutes/DailyProfitGenerator";
@@ -22,6 +22,7 @@ import USDTPage from "../Pages/Dashboards/UserRoutes/Payment/USDTPage";
 import BitcoinPage from "../Pages/Dashboards/UserRoutes/Payment/BitcoinPage";
 import EthereumPage from "../Pages/Dashboards/UserRoutes/Payment/EthereumPage";
 import PendingTransactions from "../Pages/Dashboards/AdminRoutes/PendingTransactions";
+import UserControl from "../Pages/Dashboards/AdminRoutes/UserControl";
 
 
 export const router = createBrowserRouter([
@@ -57,8 +58,9 @@ export const router = createBrowserRouter([
 
       // Admin Routes
       { path: "adminProfile", element: <AdminRoute><AdminProfile /></AdminRoute> },
-      { path: "allUsers", element: <AdminRoute><AllUsers /></AdminRoute> },
+      // { path: "allUsers", element: <AdminRoute><AllUsers /></AdminRoute> },
       { path: "pendingTransaction", element: <AdminRoute><PendingTransactions /></AdminRoute> },
+      { path: "userControl", element: <AdminRoute><UserControl /></AdminRoute> },
     ],
   },
 ]);

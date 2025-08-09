@@ -7,18 +7,21 @@ import { app } from "../Firebase/firebase.config";
 
 import { sendEmailVerification } from "firebase/auth";
 import useAxiosPublic from "../Hooks/useAxiosPublic";
+// import useAxiosSecure from "../Hooks/useAxiosSecure";
 
 
 
 // eslint-disable-next-line react-refresh/only-export-components
-export const AuthContext = createContext(null);
+export const AuthContext = createContext();
 const auth = getAuth(app);
 
 
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
+    console.log(user);
     const [loading, setLoading] = useState(true);
     const axiosPublic = useAxiosPublic();
+    // const axiosSecure = useAxiosSecure();
 
     const googleProvider = new GoogleAuthProvider();
     const handleRegister = (email, password) => {
@@ -65,14 +68,17 @@ const AuthProvider = ({ children }) => {
                     .then(res => {
                         if (res.data.token) {
                             localStorage.setItem('access-token', res.data.token);
+                            console.log('Token stored:', res.data.token); // Debug line
+                            setLoading(false);
                         }
                     })
             } else {
                 // TODO: remove token (if token stored in the client side:Local storage, caching, in memory)
                 localStorage.removeItem('access-token');
+                setLoading(false);
             }
             // jwt token work ends here______________________________
-            setLoading(false);
+
         })
         return () => unSubscribe();
 

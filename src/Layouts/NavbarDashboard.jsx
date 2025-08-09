@@ -6,12 +6,18 @@ import { FiLogOut } from "react-icons/fi";
 import { BiDollar } from "react-icons/bi";
 
 import useAdmin from "../Hooks/useAdmin";
-import AllUsers from "../Pages/Dashboards/AdminRoutes/AllUsers";
+import useDbUser from "../Hooks/useDbUser";
+import useAxiosSecure from "../Hooks/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
+// import AllUsers from "../Pages/Dashboards/AdminRoutes/AllUsers";
 
 
 const NavbarDashboard = () => {
     const { handleLogout } = useAuth();
     const [isAdmin] = useAdmin();
+
+    const { dbUser } = useDbUser();
+    const axiosSecure = useAxiosSecure();
 
     //  closed drawer
     const handleDrawerClose = () => {
@@ -37,12 +43,23 @@ const NavbarDashboard = () => {
                         <li>
                             <NavLink
                                 onClick={handleDrawerClose}
+                                to="/dashboard/userControl"
+                                className={({ isActive }) =>
+                                    `font-medium ${isActive ? "text-yellow-400 underline" : "hover:text-yellow-400"}`
+                                }
+                            >
+                                User Control
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
+                                onClick={handleDrawerClose}
                                 to="/dashboard/pendingTransaction"
                                 className={({ isActive }) =>
                                     `font-medium ${isActive ? "text-yellow-400 underline" : "hover:text-yellow-400"}`
                                 }
                             >
-                                Pending Tr
+                                Pending Transaction
                             </NavLink>
                         </li>
                     </>
@@ -99,6 +116,20 @@ const NavbarDashboard = () => {
     );
 
 
+
+
+    // Step: fetch user balance info
+    const { data: userData = {}, } = useQuery({
+        queryKey: ['userBalance', dbUser?._id],
+        enabled: !!dbUser?._id,
+        queryFn: async () => {
+            const res = await axiosSecure.get(`/usersBalance/${dbUser._id}`);
+            return res.data;
+        }
+    });
+    console.log(userData);
+
+
     return (
         <div className="drawer drawer-end z-50">
 
@@ -130,9 +161,10 @@ const NavbarDashboard = () => {
                         {/* Right: Balance & Logout */}
                         <div className="flex items-center gap-4 text-sm">
                             <span className="hidden sm:block">
-                                {isAdmin && <AllUsers />}
-                                <span className="font-semibold text-yellow-300">
-                                    {/* ${balance || "0.00"} */}
+                                {/* {isAdmin && <AllUsers />} */}
+                                <span className="font-semibold text-yellow-300 text-xl">
+                                    Balance: ${Number(userData?.balance || 0).toFixed(2)}
+
                                 </span>
                             </span>
                             <button
@@ -157,14 +189,17 @@ const NavbarDashboard = () => {
                             <RxCross1 className="text-xl cursor-pointer" />
                         </label>
                     </div>
+                    <div className="mt-4 ">
+                        <div>
+                            Balance:{" "}
+                            <span className="font-semibold text-yellow-300 ">
+                                Balance: ${Number(userData?.balance || 0).toFixed(2)}
+                            </span>
+                            <div className="mt-3 border-t border-gray-500  text-sm"></div>
+                        </div>
+                    </div>
                     {navLinks}
                     <div className="mt-4 border-t border-gray-500 pt-4 text-sm">
-                        <p>
-                            Balance:{" "}
-                            <span className="font-semibold text-yellow-300">
-                                {/* ${balance || "0.00"} */}
-                            </span>
-                        </p>
                         <button
                             onClick={handleLogout}
                             className="mt-3 w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded-md font-medium"
