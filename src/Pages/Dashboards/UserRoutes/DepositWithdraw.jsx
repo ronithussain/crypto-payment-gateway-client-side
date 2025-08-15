@@ -98,16 +98,20 @@ const DepositWithdraw = () => {
                 if (res.data.insertedId || res.data.success) {
                     toast.success(`${activeTab === 'deposit' ? 'Deposit' : 'Withdrawal'} submitted successfully!`);
                     setAmount('');
+
+                    const transactionId = res.data.insertedId;
+
                     if (paymentMethod === 'bitcoin') {
-                        navigate('/dashboard/payment/bitcoin');
+                        navigate(`/dashboard/payment/bitcoin?transactionId=${transactionId}`);
                     } else if (paymentMethod === 'usdt') {
-                        navigate('/dashboard/payment/usdt');
+                        navigate(`/dashboard/payment/usdt?transactionId=${transactionId}`);
                     } else if (paymentMethod === 'ethereum') {
-                        navigate('/dashboard/payment/ethereum');
+                        navigate(`/dashboard/payment/ethereum?transactionId=${transactionId}`);
                     }
                 } else {
                     toast.error('Something went wrong!');
                 }
+                console.log(res, 'deposit data successful ');
             })
             .catch((err) => {
                 if (err.response) {

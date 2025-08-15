@@ -13,7 +13,6 @@ import DashBoard from "../Layouts/DashBoard";
 // import AllUsers from "../Pages/Dashboards/AdminRoutes/AllUsers";
 import DepositWithdraw from "../Pages/Dashboards/UserRoutes/DepositWithdraw";
 import AccountBalance from "../Pages/Dashboards/UserRoutes/AccountBalance";
-import DailyProfitGenerator from "../Pages/Dashboards/UserRoutes/DailyProfitGenerator";
 import ReferralProgram from "../Pages/Dashboards/UserRoutes/ReferralProgram";
 
 import AdminProfile from "../Pages/Dashboards/AdminRoutes/AdminProfile";
@@ -23,6 +22,7 @@ import BitcoinPage from "../Pages/Dashboards/UserRoutes/Payment/BitcoinPage";
 import EthereumPage from "../Pages/Dashboards/UserRoutes/Payment/EthereumPage";
 import PendingTransactions from "../Pages/Dashboards/AdminRoutes/PendingTransactions";
 import UserControl from "../Pages/Dashboards/AdminRoutes/UserControl";
+import TaskCenter from "../Pages/Dashboards/UserRoutes/TaskCenter";
 
 
 export const router = createBrowserRouter([
@@ -48,7 +48,7 @@ export const router = createBrowserRouter([
       // User Routes
       { path: "accountBalance", element: <AccountBalance /> },
       { path: "transaction", element: <DepositWithdraw /> },
-      { path: "dailyProfitGenerator", element: <DailyProfitGenerator /> },
+      { path: "dailyProfitGenerator", element: <TaskCenter/> },
       { path: "referralProgram", element: <ReferralProgram /> },
 
       // Payment Pages (Already inside PrivateRoute, no need to wrap again)

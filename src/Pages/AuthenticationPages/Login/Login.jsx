@@ -18,7 +18,7 @@ const Login = () => {
     // forgotPassword
     const emailRef = useRef()
 
-    const from = location.state?.from?.pathname || '/';
+    const from = location.state?.from?.pathname || '/dashboard/accountBalance';
     console.log('in the location login page', location.state)
 
 

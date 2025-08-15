@@ -4,7 +4,8 @@ import useAuth from "./UseAuth";
 
 
 export const axiosSecure = axios.create({
-    baseURL: 'http://localhost:5000'
+    baseURL: 'https://crypto-payment-gateway-server-side.vercel.app'
+    // baseURL: 'http://localhost:5000',
 })
 
 const useAxiosSecure = () => {

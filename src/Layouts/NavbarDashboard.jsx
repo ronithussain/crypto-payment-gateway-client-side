@@ -127,7 +127,7 @@ const NavbarDashboard = () => {
             return res.data;
         }
     });
-    console.log(userData);
+    // console.log(userData);
 
 
     return (
@@ -193,7 +193,7 @@ const NavbarDashboard = () => {
                         <div>
                             Balance:{" "}
                             <span className="font-semibold text-yellow-300 ">
-                                Balance: ${Number(userData?.balance || 0).toFixed(2)}
+                             ${Number(userData?.balance || 0).toFixed(2)}
                             </span>
                             <div className="mt-3 border-t border-gray-500  text-sm"></div>
                         </div>

@@ -18,7 +18,7 @@ const auth = getAuth(app);
 
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-    console.log(user);
+    // console.log(user);
     const [loading, setLoading] = useState(true);
     const axiosPublic = useAxiosPublic();
     // const axiosSecure = useAxiosSecure();
@@ -68,7 +68,7 @@ const AuthProvider = ({ children }) => {
                     .then(res => {
                         if (res.data.token) {
                             localStorage.setItem('access-token', res.data.token);
-                            console.log('Token stored:', res.data.token); // Debug line
+                            // console.log('Token stored:', res.data.token); // Debug line
                             setLoading(false);
                         }
                     })

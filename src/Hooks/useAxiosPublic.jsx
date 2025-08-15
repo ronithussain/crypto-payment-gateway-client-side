@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const axiosPublic = axios.create({
-    baseURL: 'http://localhost:5000'
+    baseURL: 'https://crypto-payment-gateway-server-side.vercel.app'
+    // baseURL: 'http://localhost:5000',
 })
 
 const useAxiosPublic = () => {

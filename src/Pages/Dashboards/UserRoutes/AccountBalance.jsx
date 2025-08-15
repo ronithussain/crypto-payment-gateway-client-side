@@ -1,29 +1,31 @@
 import { BsCalendarRangeFill } from "react-icons/bs";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
-
 import { useQuery } from "@tanstack/react-query";
 import { FaArrowTrendUp } from "react-icons/fa6";
 import UserProfile from "./UserProfile";
 import PurchaseInfo from "./PurchaseInfo";
 import useDbUser from '../../../Hooks/useDbUser'
-import ProfitTask from '../../../Pages/Dashboards/UserRoutes/ProfitTask'
+import LiveProfitSystem from "./LiveProfitSystem";
 
 const AccountBalance = () => {
   const { dbUser } = useDbUser();
   const axiosSecure = useAxiosSecure();
 
   // Step: fetch user balance info
-  const { data: userData = {}, } = useQuery({
+  const { data: userData = {} } = useQuery({
     queryKey: ['userBalance', dbUser?._id],
     enabled: !!dbUser?._id,
     queryFn: async () => {
       const res = await axiosSecure.get(`/usersBalance/${dbUser._id}`);
       return res.data;
-    }
+    },
+    // Auto refetch every 5 seconds for real-time updates
+    refetchInterval: 5000,
+    // Refetch when window becomes active
+    refetchOnWindowFocus: true
   });
 
-  console.log(userData);
-
+  // console.log(userData);
 
   const balance = userData?.balance || 0;
   const totalProfit = 0; // later dynamic logic can be added here
@@ -54,7 +56,7 @@ const AccountBalance = () => {
           </div>
         </div>
       </div>
-      <ProfitTask/>
+      <LiveProfitSystem />
       <PurchaseInfo />
     </>
   );

@@ -1,5 +1,5 @@
-import React, { useState, useRef } from 'react';
-import EthereumQRcode from '../../../../assets/QRcode/EthereumQRcode.jpg'
+import { useState, useRef } from 'react';
+import EthereumQRcode from '../../../../assets/QRcode/EthereumQRcode.jpg';
 
 // Icon Components
 const CopyIcon = () => (
@@ -299,6 +299,7 @@ const EthereumPage = () => {
           {/* QR Code */}
           <div className="flex justify-center mb-6">
             <div className="bg-white p-4 rounded-xl border-2 border-gray-100">
+            
               <img className='w-32' src={EthereumQRcode} alt="" />
             </div>
           </div>
