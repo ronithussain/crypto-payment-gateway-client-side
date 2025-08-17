@@ -9,7 +9,7 @@ const DashBoard = () => {
             {/* Dashboard NavBar ----------------*/}
             <NavbarDashboard></NavbarDashboard>
 
-            <main className='min-h-[calc(100vh)] pt-26 pb-8 sm:px-0 px-2 max-w-7xl mx-auto'>
+            <main className='min-h-[calc(100vh)] pt-26 pb-8 sm:px-0 px-4 max-w-7xl mx-auto'>
                 <Outlet></Outlet>
             </main>
 

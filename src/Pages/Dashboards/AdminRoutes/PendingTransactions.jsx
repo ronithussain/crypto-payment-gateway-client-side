@@ -3,6 +3,7 @@ import toast from 'react-hot-toast';
 import useAxiosSecure from '../../../Hooks/useAxiosSecure';
 import { useState, useEffect } from 'react';
 import { Search, ChevronDown, ChevronLeft, ChevronRight, DollarSign, Mail, X } from 'lucide-react';
+import MobilePendingTransaction from './MobilePendingTransaction';
 
 const PendingTransactions = () => {
     const axiosSecure = useAxiosSecure();
@@ -22,11 +23,11 @@ const PendingTransactions = () => {
     }, [transactionSearchTerm]);
 
     // সার্ভার থেকে ডেটা fetch
-    const { data: transactions = [], refetch } = useQuery({
+    const { data: transactions = [], refetch, isFetching } = useQuery({
         queryKey: ['pendingTransactions'],
         queryFn: async () => {
             const res = await axiosSecure.get('/api/transactions/pending');
-            console.log(res.data, 'all pending transaction with proofUrl');
+            // console.log(res.data, 'all pending transaction with proofUrl');
             return res.data;
         }
     });
@@ -35,13 +36,13 @@ const PendingTransactions = () => {
     const filteredTransactions = transactions.filter(transaction => {
         const search = transactionSearchTerm.toLowerCase();
         return (
-            transaction.userName?.toLowerCase().includes(search) ||
-            transaction.userEmail?.toLowerCase().includes(search) ||
+            transaction.name?.toLowerCase().includes(search) ||
+            transaction.email?.toLowerCase().includes(search) ||
             transaction.type?.toLowerCase().includes(search) ||
-            transaction.method?.toLowerCase().includes(search) ||
+            transaction.paymentMethod?.toLowerCase().includes(search) ||
             transaction.status?.toLowerCase().includes(search) ||
             transaction.amount?.toString().includes(search) ||
-            transaction.dateTime?.includes(search)
+            transaction.createdAt?.includes(search)
         );
     });
 
@@ -51,7 +52,7 @@ const PendingTransactions = () => {
     const endTransactionIndex = startTransactionIndex + itemsPerPage;
     const currentTransactions = filteredTransactions.slice(startTransactionIndex, endTransactionIndex);
 
-    console.log(currentTransactions);
+    // console.log(currentTransactions);
 
     // Approve and Decline handlers
     const handleApprove = async (_id) => {
@@ -86,6 +87,15 @@ const PendingTransactions = () => {
         setTransactionSearchTerm(term);
     };
 
+    const Loader = () => (
+        <div className="text-center py-8 text-gray-500">
+            <svg className="animate-spin h-6 w-6 text-blue-500 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+            </svg>
+            <p>Loading...</p>
+        </div>
+    );
 
     return (
         <div className="min-h-screen bg-gray-100 rounded-2xl" onClick={handleOutsideClick}>
@@ -112,237 +122,139 @@ const PendingTransactions = () => {
                             className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                         />
                     </div>
+
                     {/* Transactions List */}
                     <div className="bg-white rounded-lg shadow overflow-hidden">
                         {/* Mobile Cards */}
                         <div className="block lg:hidden space-y-3 p-4">
-                            {currentTransactions.length === 0 ? (
-                                <div className="text-center py-8 text-gray-500">
-                                    <DollarSign className="w-12 h-12 mx-auto mb-3 text-gray-400" />
-                                    <p>No transactions found</p>
-                                </div>
-                            ) : (
-                                currentTransactions.map((transaction) => (
-                                    <div key={transaction._id} className="bg-gray-50 rounded-lg p-4">
-                                        <div className="flex items-start justify-between mb-3">
-                                            <div>
-                                                <div className="text-sm font-medium text-gray-900">{transaction.name}</div>
-                                                <div className="text-xs text-gray-500 flex items-center">
-                                                    <Mail className="w-3 h-3 mr-1" />
-                                                    {transaction.email}
-                                                </div>
-                                            </div>
-                                            <span className={`px-2 py-1 text-xs font-semibold rounded-full ${transaction.type === 'deposit' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'}`}>
-                                                {transaction.type}
-                                            </span>
-                                        </div>
-
-                                        <div className="grid grid-cols-2 gap-3 mb-3 text-xs">
-                                            <div>
-                                                <span className="text-gray-500">Amount:</span>
-                                                <div className="font-semibold text-gray-900">৳{Number(transaction.amount || 0).toLocaleString()}</div>
-                                            </div>
-                                            <div>
-                                                <span className="text-gray-500">Method:</span>
-                                                <div className="text-gray-900">{transaction.paymentMethod}</div> {/* এখানে fee -> method হবে বলে ধরে নিলাম */}
-                                            </div>
-                                            <div>
-                                                <span className="text-gray-500">Date:</span>
-                                                <div className="text-gray-900">{transaction.createdAt
-                                                    ? new Date(transaction.createdAt).toISOString().split('T')[0]
-                                                    : 'N/A'}</div>
-                                            </div>
-                                            <div>
-                                                <span className="text-gray-500">Time:</span>
-                                                <div className="text-gray-900">{transaction.createdAt
-                                                    ? new Date(transaction.createdAt).toLocaleTimeString(undefined, {
-                                                        hour: '2-digit',
-                                                        minute: '2-digit',
-                                                    })
-                                                    : 'N/A'}</div>
-                                            </div>
-                                        </div>
-
-                                        <div className="flex items-center justify-between mb-3">
-                                            <span className={`px-2 py-1 text-xs font-semibold rounded-full ${transaction.status === 'approved' ? 'bg-green-100 text-green-800' :
-                                                transaction.status === 'declined' ? 'bg-red-100 text-red-800' :
-                                                    'bg-yellow-100 text-yellow-800'
-                                                }`}>
-                                                {transaction.status}
-                                            </span>
-
-                                            {/* ✅ proofUrl ব্যবহার করুন, screenshot নয় */}
-                                            {transaction.proofUrl ? (
-                                                <button
-                                                    onClick={() => setSelectedScreenshot(transaction.proofUrl)}
-                                                    className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs hover:bg-blue-200"
-                                                >
-                                                    View Proof
-                                                </button>
-                                            ) : (
-                                                <span className="text-gray-400 text-xs">No Proof</span>
-                                            )}
-                                        </div>
-
-                                        {transaction.status === 'pending' && (
-                                            <div className="relative" onClick={(e) => e.stopPropagation()}>
-                                                <button
-                                                    onClick={() =>
-                                                        setOpenDropdown(openDropdown === `mobile-${transaction._id}` ? null : `mobile-${transaction._id}`)
-                                                    }
-                                                    className="w-full bg-gray-100 text-gray-700 px-3 py-2 rounded text-sm font-medium hover:bg-gray-200 flex items-center justify-center"
-                                                >
-                                                    Actions
-                                                    <ChevronDown className="w-4 h-4 ml-1" />
-                                                </button>
-
-                                                {openDropdown === `mobile-${transaction._id}` && (
-                                                    <div className="absolute left-0 right-0 mt-1 bg-white border border-gray-200 rounded-md shadow-lg z-20">
-                                                        <div className="py-1">
-                                                            <button
-                                                                onClick={() => {
-                                                                    handleApprove(transaction._id);
-                                                                    setOpenDropdown(null);
-                                                                }}
-                                                                className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 text-green-600"
-                                                            >
-                                                                Approve
-                                                            </button>
-                                                            <button
-                                                                onClick={() => {
-                                                                    handleDecline(transaction._id);
-                                                                    setOpenDropdown(null);
-                                                                }}
-                                                                className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 text-red-600"
-                                                            >
-                                                                Decline
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        )}
-                                    </div>
-                                ))
-                            )}
+                            <MobilePendingTransaction
+                                transactions={currentTransactions}
+                                openDropdown={openDropdown}
+                                setOpenDropdown={setOpenDropdown}
+                                handleApprove={handleApprove}
+                                handleDecline={handleDecline}
+                                setSelectedScreenshot={setSelectedScreenshot}
+                                isFetching={isFetching}
+                            />
                         </div>
 
                         {/* Desktop Table */}
-                        {/* তোমার আগের desktop কোড এখানে থাকবে */}
-                    </div>
-
-
-                    {/* Desktop Table */}
-                    <div className="hidden lg:block overflow-x-auto">
-                        <table className="min-w-full divide-y divide-gray-200">
-                            <thead className="bg-gray-50">
-                                <tr>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">User</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Type</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Amount</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Method</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date & Time</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Proof</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody className="bg-white divide-y divide-gray-200">
-                                {currentTransactions.length === 0 ? (
+                        <div className="hidden lg:block overflow-x-auto">
+                            <table className="min-w-full divide-y divide-gray-200">
+                                <thead className="bg-gray-50">
                                     <tr>
-                                        <td colSpan="8" className="px-6 py-12 text-center text-gray-500">
-                                            <DollarSign className="w-12 h-12 mx-auto mb-3 text-gray-400" />
-                                            <p>No transactions found</p>
-                                        </td>
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">User</th>
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Type</th>
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Amount</th>
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Method</th>
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date & Time</th>
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Proof</th>
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
                                     </tr>
-                                ) : (
-                                    currentTransactions.map((transaction) => (
-                                        <tr key={transaction._id} className="hover:bg-gray-50">
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                <div>
-                                                    <div className="text-sm font-medium text-gray-900">{transaction.name}</div>
-                                                    <div className="text-sm text-gray-500 flex items-center">
-                                                        <Mail className="w-3 h-3 mr-1" />
-                                                        {transaction.email}
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                <span className={`px-2 inline-flex text-xs font-semibold rounded-full ${transaction.type === 'deposit' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'}`}>
-                                                    {transaction.type}
-                                                </span>
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                ${Number(transaction.amount || 0).toLocaleString()}
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap">{transaction.paymentMethod}</td>
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                <div>{transaction.createdAt
-                                                    ? new Date(transaction.createdAt).toISOString().split('T')[0]
-                                                    : 'N/A'}</div>
-                                                <div className="text-xs text-gray-500">{transaction.createdAt
-                                                    ? new Date(transaction.createdAt).toLocaleTimeString(undefined, {
-                                                        hour: '2-digit',
-                                                        minute: '2-digit',
-                                                    })
-                                                    : 'N/A'}</div>
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                <span className={`px-2 inline-flex text-xs font-semibold rounded-full ${transaction.status === 'approved' ? 'bg-green-100 text-green-800' :
-                                                    transaction.status === 'declined' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'
-                                                    }`}>
-                                                    {transaction.status}
-                                                </span>
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                {/* ✅ এটা ঠিক আছে, proofUrl ব্যবহার করছে */}
-                                                {transaction.proofUrl ? (
-                                                    <button
-                                                        onClick={() => setSelectedScreenshot(transaction.proofUrl)}
-                                                        className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs hover:bg-blue-200"
-                                                    >
-                                                        View Proof
-                                                    </button>
-                                                ) : (
-                                                    <span className="text-gray-400 text-xs">No Proof</span>
-                                                )}
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium relative">
-                                                {transaction.status === 'pending' && (
-                                                    <div className="relative" onClick={(e) => e.stopPropagation()}>
-                                                        <button
-                                                            onClick={() => setOpenDropdown(openDropdown === `desktop-${transaction._id}` ? null : `desktop-${transaction._id}`)}
-                                                            className="bg-gray-100 text-gray-700 px-3 py-1 rounded text-xs font-medium hover:bg-gray-200 flex items-center"
-                                                        >
-                                                            Actions
-                                                            <ChevronDown className="w-3 h-3 ml-1" />
-                                                        </button>
-                                                        {openDropdown === `desktop-${transaction._id}` && (
-                                                            <div className="absolute right-0 mt-1 w-36 bg-white border border-gray-200 rounded-md shadow-lg z-20">
-                                                                <div className="py-1">
-                                                                    <button
-                                                                        onClick={() => handleApprove(transaction._id)}
-                                                                        className="block w-full text-left px-4 py-2 text-xs hover:bg-gray-100 text-green-600"
-                                                                    >
-                                                                        Approve
-                                                                    </button>
-                                                                    <button
-                                                                        onClick={() => handleDecline(transaction._id)}
-                                                                        className="block w-full text-left px-4 py-2 text-xs hover:bg-gray-100 text-red-600"
-                                                                    >
-                                                                        Decline
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        )}
-                                                    </div>
-                                                )}
+                                </thead>
+                                <tbody className="bg-white divide-y divide-gray-200">
+                                    {isFetching ? (
+                                        <tr>
+                                            <td colSpan="8">
+                                                <Loader />
                                             </td>
                                         </tr>
-                                    ))
-                                )}
-                            </tbody>
-                        </table>
+                                    ) : currentTransactions.length === 0 ? (
+                                        <tr>
+                                            <td colSpan="8" className="px-6 py-12 text-center text-gray-500">
+                                                <DollarSign className="w-12 h-12 mx-auto mb-3 text-gray-400" />
+                                                <p>No transactions found</p>
+                                            </td>
+                                        </tr>
+                                    ) : (
+                                        currentTransactions.map((transaction) => (
+                                            <tr key={transaction._id} className="hover:bg-gray-50">
+                                                <td className="px-6 py-4 whitespace-nowrap">
+                                                    <div>
+                                                        <div className="text-sm font-medium text-gray-900">{transaction.name}</div>
+                                                        <div className="text-sm text-gray-500 flex items-center">
+                                                            <Mail className="w-3 h-3 mr-1" />
+                                                            {transaction.email}
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td className="px-6 py-4 whitespace-nowrap">
+                                                    <span className={`px-2 inline-flex text-xs font-semibold rounded-full ${transaction.type === 'deposit' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'}`}>
+                                                        {transaction.type}
+                                                    </span>
+                                                </td>
+                                                <td className="px-6 py-4 whitespace-nowrap">
+                                                    ${Number(transaction.amount || 0).toLocaleString()}
+                                                </td>
+                                                <td className="px-6 py-4 whitespace-nowrap">{transaction.paymentMethod}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap">
+                                                    <div>{transaction.createdAt
+                                                        ? new Date(transaction.createdAt).toISOString().split('T')[0]
+                                                        : 'N/A'}</div>
+                                                    <div className="text-xs text-gray-500">{transaction.createdAt
+                                                        ? new Date(transaction.createdAt).toLocaleTimeString(undefined, {
+                                                            hour: '2-digit',
+                                                            minute: '2-digit',
+                                                        })
+                                                        : 'N/A'}</div>
+                                                </td>
+                                                <td className="px-6 py-4 whitespace-nowrap">
+                                                    <span className={`px-2 inline-flex text-xs font-semibold rounded-full ${transaction.status === 'approved' ? 'bg-green-100 text-green-800' :
+                                                        transaction.status === 'declined' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'
+                                                        }`}>
+                                                        {transaction.status}
+                                                    </span>
+                                                </td>
+                                                <td className="px-6 py-4 whitespace-nowrap">
+                                                    {transaction.proofUrl ? (
+                                                        <button
+                                                            onClick={() => setSelectedScreenshot(transaction.proofUrl)}
+                                                            className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs hover:bg-blue-200"
+                                                        >
+                                                            View Proof
+                                                        </button>
+                                                    ) : (
+                                                        <span className="text-gray-400 text-xs">No Proof</span>
+                                                    )}
+                                                </td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium relative">
+                                                    {transaction.status === 'pending' && (
+                                                        <div className="relative" onClick={(e) => e.stopPropagation()}>
+                                                            <button
+                                                                onClick={() => setOpenDropdown(openDropdown === `desktop-${transaction._id}` ? null : `desktop-${transaction._id}`)}
+                                                                className="bg-gray-100 text-gray-700 px-3 py-1 rounded text-xs font-medium hover:bg-gray-200 flex items-center"
+                                                            >
+                                                                Actions
+                                                                <ChevronDown className="w-3 h-3 ml-1" />
+                                                            </button>
+                                                            {openDropdown === `desktop-${transaction._id}` && (
+                                                                <div className="absolute right-0 mt-1 w-36 bg-white border border-gray-200 rounded-md shadow-lg z-20">
+                                                                    <div className="py-1">
+                                                                        <button
+                                                                            onClick={() => handleApprove(transaction._id)}
+                                                                            className="block w-full text-left px-4 py-2 text-xs hover:bg-gray-100 text-green-600"
+                                                                        >
+                                                                            Approve
+                                                                        </button>
+                                                                        <button
+                                                                            onClick={() => handleDecline(transaction._id)}
+                                                                            className="block w-full text-left px-4 py-2 text-xs hover:bg-gray-100 text-red-600"
+                                                                        >
+                                                                            Decline
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    )}
+                                                </td>
+                                            </tr>
+                                        ))
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
 
                     {/* Pagination */}
@@ -395,9 +307,10 @@ const PendingTransactions = () => {
                     onClick={() => setSelectedScreenshot(null)}
                 >
                     <div
-                        className="bg-white rounded-lg p-4 sm:p-6 max-w-sm sm:max-w-md w-full"
+                        className="bg-white rounded-lg p-4 sm:p-6 max-w-4xl w-full"
                         onClick={(e) => e.stopPropagation()}
                     >
+                        {/* Header */}
                         <div className="flex justify-between items-center mb-4">
                             <h3 className="text-lg font-semibold">Payment Proof</h3>
                             <button
@@ -407,13 +320,17 @@ const PendingTransactions = () => {
                                 <X className="w-6 h-6" />
                             </button>
                         </div>
-                        <div className="mb-4">
+
+                        {/* Image */}
+                        <div className="mb-4 flex justify-center">
                             <img
                                 src={selectedScreenshot}
                                 alt="Payment Proof"
-                                className="w-full h-48 sm:h-64 object-cover rounded-lg border"
+                                className="max-w-full max-h-[80vh] object-contain rounded-lg border border-gray-200"
                             />
                         </div>
+
+                        {/* Close button */}
                         <button
                             onClick={() => setSelectedScreenshot(null)}
                             className="w-full bg-gray-600 text-white py-2 rounded-lg hover:bg-gray-700"

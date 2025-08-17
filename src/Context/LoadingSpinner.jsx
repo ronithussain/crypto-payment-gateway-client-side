@@ -1,10 +1,10 @@
-import { ClipLoader } from "react-spinners";
+import FadeLoader from "react-spinners/FadeLoader";
 
 const LoadingSpinner = () => {
     return (
         <div>
             <div className="flex justify-center items-center min-h-screen">
-                <ClipLoader color="#ff5733" size={80} />
+                <FadeLoader color="#12f4a3" height={12} margin={4} />
             </div>
         </div>
     );

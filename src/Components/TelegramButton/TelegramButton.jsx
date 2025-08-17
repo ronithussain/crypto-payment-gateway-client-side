@@ -5,7 +5,7 @@ const TelegramButton = () => {
     const location = useLocation();
     const hiddenRoutes = ['/login', '/register'];
     const [hovered, setHovered] = useState(false); // ✅ This line is fine
-    console.log(hovered);
+    // console.log(hovered);
 
     if (hiddenRoutes.includes(location.pathname)) return null;
 

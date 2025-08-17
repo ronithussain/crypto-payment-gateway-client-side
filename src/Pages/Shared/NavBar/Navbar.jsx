@@ -54,7 +54,7 @@ const Navbar = () => {
     );
 
     return (
-        <div className="fixed top-0 z-50 bg-opacity-80 backdrop-blur py-4 sm:px-0 px-2 w-full">
+        <div className="fixed top-0 z-50 bg-opacity-80 backdrop-blur sm:py-4 sm:px-0 px-2 w-full">
             <div className="sm:w-10/12 mx-auto navbar flex items-center justify-between px-0">
                 {/* Left: Logo & Hamburger */}
                 <div className="flex items-center gap-x-4">
@@ -135,7 +135,7 @@ const Navbar = () => {
                     {/* Drawer Sidebar Mobile */}
                     <input id="my-drawer-4" type="checkbox" className="drawer-toggle hidden" />
                     <div className="drawer-side z-50 lg:hidden">
-                        <label htmlFor="my-drawer-4" aria-label="close sidebar" className="drawer-open"></label>
+                        <label htmlFor="my-drawer-4" aria-label="close sidebar" className="drawer-overlay"></label>
                         <ul className="menu bg-gradient-to-r from-[#131F3D] via-[#1A306F] to-[#21429e] backdrop-blur opacity-95 text-base-content min-h-full md:w-[50%] w-[70%] p-4">
                             {/* Drawer Header */}
                             <div className="flex justify-between items-center">
@@ -179,7 +179,7 @@ const Navbar = () => {
                             <div className="my-4 mt-12">
                                 <Link to="/" onClick={handleDrawerClose} className="flex items-center">
                                     <h3 className="font-medium sm:text-2xl md:text-2xl text-base text-white/90">
-                                        Demo<span className="text-[#40aaec]">C</span>ompany
+                                        DataPrice<span className="text-[#40aaec]"> C</span>ompany
                                     </h3>
                                 </Link>
                             </div>

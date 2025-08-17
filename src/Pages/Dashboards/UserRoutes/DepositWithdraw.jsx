@@ -44,7 +44,7 @@ const DepositWithdraw = () => {
         e.preventDefault();
 
         if (!dbUser || !amount) return;
-        const numAmount = parseFloat(amount);
+        const numAmount = Number(parseFloat(amount).toFixed(2));
 
         if (activeTab === 'deposit' && numAmount < systemSettings.minDeposit) {
             toast.error(`Deposit must be at least $${systemSettings.minDeposit}`);
@@ -91,38 +91,46 @@ const DepositWithdraw = () => {
             walletAddress: activeTab === 'withdraw' ? walletAddress : '',
             paymentMethod,
         };
-        console.log(payload);
+        // console.log(payload);
         axiosSecure
             .post('/api/transactions', payload)
             .then((res) => {
                 if (res.data.insertedId || res.data.success) {
-                    toast.success(`${activeTab === 'deposit' ? 'Deposit' : 'Withdrawal'} submitted successfully!`);
+                    if (activeTab === 'withdraw') {
+                        // ✅ শুধু withdraw হলে toast দেখাবে
+                        toast.success('Withdrawal submitted successfully!');
+                    }
+
                     setAmount('');
 
-                    const transactionId = res.data.insertedId;
+                    // ✅ শুধু deposit হলে redirect হবে
+                    if (activeTab === 'deposit') {
+                        const transactionId = res.data.insertedId;
 
-                    if (paymentMethod === 'bitcoin') {
-                        navigate(`/dashboard/payment/bitcoin?transactionId=${transactionId}`);
-                    } else if (paymentMethod === 'usdt') {
-                        navigate(`/dashboard/payment/usdt?transactionId=${transactionId}`);
-                    } else if (paymentMethod === 'ethereum') {
-                        navigate(`/dashboard/payment/ethereum?transactionId=${transactionId}`);
+                        if (paymentMethod === 'bitcoin') {
+                            navigate(`/dashboard/payment/bitcoin?transactionId=${transactionId}`);
+                        } else if (paymentMethod === 'usdt') {
+                            navigate(`/dashboard/payment/usdt?transactionId=${transactionId}`);
+                        } else if (paymentMethod === 'ethereum') {
+                            navigate(`/dashboard/payment/ethereum?transactionId=${transactionId}`);
+                        }
                     }
                 } else {
                     toast.error('Something went wrong!');
                 }
-                console.log(res, 'deposit data successful ');
+                // console.log(res, 'deposit/withdraw data successful ');
             })
             .catch((err) => {
                 if (err.response) {
-                    // সার্ভার থেকে আসা error message দেখাবে
                     console.error('Axios error response data:', err.response.data);
                     toast.error(err.response.data.error || 'Failed to submit transaction');
                 } else {
                     console.error('Axios error:', err);
                     toast.error('Failed to submit transaction');
                 }
-            })
+            });
+
+
 
     };
 

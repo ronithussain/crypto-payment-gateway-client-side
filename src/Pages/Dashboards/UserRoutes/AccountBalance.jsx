@@ -30,6 +30,11 @@ const AccountBalance = () => {
   const balance = userData?.balance || 0;
   const totalProfit = 0; // later dynamic logic can be added here
 
+  //   const formattedBalance = balance.toLocaleString("en-US", { 
+  //   minimumFractionDigits: 2, 
+  //   maximumFractionDigits: 2 
+  // });
+
   return (
     <>
       <UserProfile />

@@ -1,98 +1,12 @@
 import React, { useState, useRef } from 'react';
-import BitcoinQRcode from '../../../../assets/QRcode/BitcoinQRcode.jpg'
-
-// Icon Components
-const CopyIcon = () => (
-  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
-  </svg>
-);
-
-const UploadIcon = ({ className }) => (
-  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
-  </svg>
-);
-
-const CloseIcon = ({ className }) => (
-  <svg className={className} fill="currentColor" viewBox="0 0 20 20">
-    <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"/>
-  </svg>
-);
-
-const FileIcon = ({ className }) => (
-  <svg className={className} fill="currentColor" viewBox="0 0 20 20">
-    <path fillRule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clipRule="evenodd"/>
-  </svg>
-);
-
-const CheckIcon = ({ className }) => (
-  <svg className={className} fill="currentColor" viewBox="0 0 20 20">
-    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
-  </svg>
-);
-
-// QR Code Component
-const QRCode = () => (
-  <svg width="200" height="200" viewBox="0 0 200 200" className="qr-code">
-    <rect width="200" height="200" fill="white"/>
-    {/* Corner squares */}
-    <rect x="0" y="0" width="60" height="60" fill="black"/>
-    <rect x="10" y="10" width="40" height="40" fill="white"/>
-    <rect x="20" y="20" width="20" height="20" fill="black"/>
-    
-    <rect x="140" y="0" width="60" height="60" fill="black"/>
-    <rect x="150" y="10" width="40" height="40" fill="white"/>
-    <rect x="160" y="20" width="20" height="20" fill="black"/>
-    
-    <rect x="0" y="140" width="60" height="60" fill="black"/>
-    <rect x="10" y="150" width="40" height="40" fill="white"/>
-    <rect x="20" y="160" width="20" height="20" fill="black"/>
-    
-    {/* Data pattern */}
-    <rect x="80" y="10" width="10" height="10" fill="black"/>
-    <rect x="100" y="10" width="10" height="10" fill="black"/>
-    <rect x="120" y="10" width="10" height="10" fill="black"/>
-    <rect x="70" y="20" width="10" height="10" fill="black"/>
-    <rect x="90" y="20" width="10" height="10" fill="black"/>
-    <rect x="110" y="20" width="10" height="10" fill="black"/>
-    <rect x="130" y="20" width="10" height="10" fill="black"/>
-    
-    {/* More data pattern */}
-    <rect x="10" y="80" width="10" height="10" fill="black"/>
-    <rect x="30" y="80" width="10" height="10" fill="black"/>
-    <rect x="50" y="80" width="10" height="10" fill="black"/>
-    <rect x="70" y="80" width="10" height="10" fill="black"/>
-    <rect x="90" y="80" width="10" height="10" fill="black"/>
-    <rect x="110" y="80" width="10" height="10" fill="black"/>
-    <rect x="130" y="80" width="10" height="10" fill="black"/>
-    <rect x="150" y="80" width="10" height="10" fill="black"/>
-    <rect x="170" y="80" width="10" height="10" fill="black"/>
-    <rect x="190" y="80" width="10" height="10" fill="black"/>
-    
-    {/* Additional pattern */}
-    <rect x="20" y="100" width="10" height="10" fill="black"/>
-    <rect x="40" y="100" width="10" height="10" fill="black"/>
-    <rect x="80" y="100" width="10" height="10" fill="black"/>
-    <rect x="120" y="100" width="10" height="10" fill="black"/>
-    <rect x="160" y="100" width="10" height="10" fill="black"/>
-    <rect x="180" y="100" width="10" height="10" fill="black"/>
-    
-    <rect x="10" y="120" width="10" height="10" fill="black"/>
-    <rect x="50" y="120" width="10" height="10" fill="black"/>
-    <rect x="90" y="120" width="10" height="10" fill="black"/>
-    <rect x="130" y="120" width="10" height="10" fill="black"/>
-    <rect x="170" y="120" width="10" height="10" fill="black"/>
-  </svg>
-);
-
-// Loading Spinner Component
-const LoadingSpinner = () => (
-  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" fill="none" viewBox="0 0 24 24">
-    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-  </svg>
-);
+import { useSearchParams } from 'react-router-dom';
+import { Copy, Upload, X, File, Check, Loader2 } from 'lucide-react';
+import BitcoinQRcode from '../../../../assets/QRcode/BitcoinQRcode.jpg';
+import { imageUpload } from '../../../../api/utils';
+import useAxiosSecure from '../../../../Hooks/useAxiosSecure';
+import useAuth from '../../../../Hooks/UseAuth';
+import useDbUser from '../../../../Hooks/useDbUser';
+import toast from 'react-hot-toast';
 
 // Success Message Component
 const SuccessMessage = ({ message, isVisible }) => {
@@ -101,7 +15,7 @@ const SuccessMessage = ({ message, isVisible }) => {
   return (
     <div className="mb-6 p-3 bg-green-100 border border-green-200 rounded-lg">
       <div className="flex items-center">
-        <CheckIcon className="w-5 h-5 text-green-600 mr-2" />
+        <Check className="w-5 h-5 text-green-600 mr-2" />
         <span className="text-sm text-green-700 font-medium">{message}</span>
       </div>
     </div>
@@ -116,11 +30,11 @@ const FilePreview = ({ fileName, onRemove, isVisible }) => {
     <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
       <div className="flex items-center justify-between">
         <div className="flex items-center">
-          <FileIcon className="w-5 h-5 text-blue-600 mr-2" />
+          <File className="w-5 h-5 text-blue-600 mr-2" />
           <span className="text-sm text-blue-700 font-medium">{fileName}</span>
         </div>
         <button onClick={onRemove} className="text-red-500 hover:text-red-700 transition-colors">
-          <CloseIcon className="w-4 h-4" />
+          <X className="w-4 h-4" />
         </button>
       </div>
     </div>
@@ -189,9 +103,9 @@ const WalletAddress = ({ address, onCopy, copySuccess }) => (
         className="absolute right-2 top-1/2 transform -translate-y-1/2 p-2 text-gray-500 hover:text-blue-600 transition-colors duration-200"
       >
         {copySuccess ? (
-          <CheckIcon className="w-5 h-5 text-green-600" />
+          <Check className="w-5 h-5 text-green-600" />
         ) : (
-          <CopyIcon />
+          <Copy className="w-5 h-5" />
         )}
       </button>
     </div>
@@ -222,7 +136,7 @@ const FileUpload = ({ onFileSelect, isDragOver, onDragOver, onDragLeave, onDrop,
         }`}
       >
         <div className="flex flex-col items-center justify-center pt-5 pb-6">
-          <UploadIcon className="w-8 h-8 mb-2 text-gray-400" />
+          <Upload className="w-8 h-8 mb-2 text-gray-400" />
           <p className="text-sm text-gray-500 text-center">
             <span className="font-medium">Click to upload</span> or drag and drop
           </p>
@@ -242,8 +156,8 @@ const SubmitButton = ({ onClick, disabled, isSubmitting }) => (
   >
     {isSubmitting ? (
       <>
-        <LoadingSpinner />
-        Processing...
+        <Loader2 className="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" />
+        Uploading...
       </>
     ) : (
       'Submit Payment Proof'
@@ -258,7 +172,7 @@ const SuccessNotification = ({ isVisible, successRef }) => {
   return (
     <div ref={successRef} className="mt-6 p-4 bg-green-100 border border-green-200 rounded-lg">
       <div className="flex items-center">
-        <CheckIcon className="w-6 h-6 text-green-600 mr-3" />
+        <Check className="w-6 h-6 text-green-600 mr-3" />
         <div>
           <h3 className="text-green-800 font-medium">Payment proof submitted successfully!</h3>
           <p className="text-green-700 text-sm mt-1">We'll verify your payment and process it shortly.</p>
@@ -268,8 +182,14 @@ const SuccessNotification = ({ isVisible, successRef }) => {
   );
 };
 
-// Main CryptoPaymentPortal Component
+// Main BitcoinPage Component
 const BitcoinPage = () => {
+  const [searchParams] = useSearchParams();
+  const transactionId = searchParams.get("transactionId");
+  const axiosSecure = useAxiosSecure();
+  const { user } = useAuth();
+  const { dbUser } = useDbUser();
+  
   const [copySuccess, setCopySuccess] = useState(false);
   const [uploadedFile, setUploadedFile] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -285,7 +205,7 @@ const BitcoinPage = () => {
       await navigator.clipboard.writeText(walletAddress);
       setCopySuccess(true);
       setTimeout(() => setCopySuccess(false), 3000);
-    } catch (err) {
+    } catch {
       // Fallback for older browsers
       const textArea = document.createElement('textarea');
       textArea.value = walletAddress;
@@ -295,7 +215,6 @@ const BitcoinPage = () => {
       document.body.removeChild(textArea);
       setCopySuccess(true);
       setTimeout(() => setCopySuccess(false), 3000);
-      console.log(err);
     }
   };
 
@@ -314,21 +233,48 @@ const BitcoinPage = () => {
   };
 
   const submitPaymentProof = async () => {
-    if (!uploadedFile) return;
+    if (!uploadedFile) {
+      toast.error("Please select a file first!");
+      return;
+    }
     
+    if (!transactionId) {
+      toast.error("Transaction ID not found!");
+      return;
+    }
+
     setIsSubmitting(true);
-    
-    // Simulate upload process
-    setTimeout(() => {
+    try {
+      // Step 1: Upload to imgbb
+      const imageUrl = await imageUpload(uploadedFile);
+      console.log("Image uploaded to imgbb:", imageUrl);
+
+      // Step 2: Send to backend with transactionId
+      const response = await axiosSecure.post("/api/payment-proof", {
+        name: user.displayName,
+        email: user.email,
+        dbUserId: dbUser._id,
+        transactionId: transactionId,
+        walletAddress,
+        proofUrl: imageUrl,
+        uploadedAt: new Date()
+      });
+
+      console.log("Payment proof submitted:", response.data);
+
       setSubmitSuccess(true);
-      setIsSubmitting(false);
       removeFile();
+      toast.success("Payment proof submitted successfully!");
       
-      // Scroll to success message
       setTimeout(() => {
         successRef.current?.scrollIntoView({ behavior: 'smooth' });
       }, 100);
-    }, 2000);
+    } catch (err) {
+      console.error("Image upload or save failed:", err);
+      toast.error("Failed to submit payment proof. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleDragOver = (e) => {
@@ -353,7 +299,7 @@ const BitcoinPage = () => {
 
   return (
     <div className="min-h-screen font-sans">
-      <div className="container mx-auto px-4 py-6 max-w-md lg:max-w-lg xl:max-w-xl">
+      <div className="container mx-auto py-2 max-w-md lg:max-w-lg xl:max-w-xl">
         {/* Payment Card */}
         <div className="bg-white rounded-2xl shadow-xl p-6 mb-6">
           {/* Network Badge */}

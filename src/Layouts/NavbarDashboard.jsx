@@ -9,7 +9,6 @@ import useAdmin from "../Hooks/useAdmin";
 import useDbUser from "../Hooks/useDbUser";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
-// import AllUsers from "../Pages/Dashboards/AdminRoutes/AllUsers";
 
 
 const NavbarDashboard = () => {
@@ -95,7 +94,7 @@ const NavbarDashboard = () => {
                                     `font-medium ${isActive ? "text-yellow-400 underline" : "hover:text-yellow-400"}`
                                 }
                             >
-                                Daily Profit Generator
+                                Task Center
                             </NavLink>
                         </li>
                         <li>
@@ -128,6 +127,12 @@ const NavbarDashboard = () => {
         }
     });
     // console.log(userData);
+
+    const balance = Number(userData?.balance || 0);
+    const formattedBalance = balance.toLocaleString("en-US", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
 
 
     return (
@@ -162,10 +167,12 @@ const NavbarDashboard = () => {
                         <div className="flex items-center gap-4 text-sm">
                             <span className="hidden sm:block">
                                 {/* {isAdmin && <AllUsers />} */}
-                                <span className="font-semibold text-yellow-300 text-xl">
-                                    Balance: ${Number(userData?.balance || 0).toFixed(2)}
+                                {!isAdmin && (
+                                    <span className="font-semibold text-yellow-300 text-xl">
+                                        Balance: ${formattedBalance}
 
-                                </span>
+                                    </span>
+                                )}
                             </span>
                             <button
                                 onClick={handleLogout}
@@ -189,15 +196,17 @@ const NavbarDashboard = () => {
                             <RxCross1 className="text-xl cursor-pointer" />
                         </label>
                     </div>
-                    <div className="mt-4 ">
-                        <div>
-                            Balance:{" "}
-                            <span className="font-semibold text-yellow-300 ">
-                             ${Number(userData?.balance || 0).toFixed(2)}
-                            </span>
-                            <div className="mt-3 border-t border-gray-500  text-sm"></div>
+                    {!isAdmin && (
+                        <div className="mt-4 ">
+                            <div>
+                                Balance:{" "}
+                                <span className="font-semibold text-yellow-300 ">
+                                 ${formattedBalance}
+                                </span>
+                                <div className="mt-3 border-t border-gray-500  text-sm"></div>
+                            </div>
                         </div>
-                    </div>
+                    )}
                     {navLinks}
                     <div className="mt-4 border-t border-gray-500 pt-4 text-sm">
                         <button

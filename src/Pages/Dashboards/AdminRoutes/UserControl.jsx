@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
-import { FaTrash, FaUsers } from "react-icons/fa6";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
-import { Users, Plus, Mail, User, Shield, ChevronDown, Search, ChevronLeft, ChevronRight, Trash2 } from 'lucide-react';
+import { Users, Mail, User, Shield, ChevronDown, Search, ChevronLeft, ChevronRight, Trash2 } from 'lucide-react';
+import MobileUserControl from "./MobileUserControl";
 
 const UserControl = () => {
     const axiosSecure = useAxiosSecure();
@@ -14,10 +14,10 @@ const UserControl = () => {
     const usersPerPage = 5;
 
     useEffect(() => {
-        setCurrentPage(0); // যখনই search change হবে, page reset হবে
+        setCurrentPage(0);
     }, [search]);
 
-    const { data: usersData = {}, refetch } = useQuery({
+    const { data: usersData = {}, refetch, isFetching } = useQuery({
         queryKey: ['users', search, currentPage],
         queryFn: async () => {
             const res = await axiosSecure.get(`/users?search=${search}&page=${currentPage}&limit=${usersPerPage}`);
@@ -29,12 +29,10 @@ const UserControl = () => {
     const totalPages = usersData?.totalPages || 1;
     const totalUsers = usersData?.totalUsers || 0;
 
-    // এখন handlePageClick সঠিক ভাবে page number নেবে
     const handlePageClick = (page) => {
         setCurrentPage(page);
     };
 
-    // Role টগল করার ফাংশন
     const handleToggleRole = (user) => {
         const newRole = user.role === 'admin' ? 'user' : 'admin';
 
@@ -53,39 +51,55 @@ const UserControl = () => {
             });
     };
 
-    // Delete ফাংশন
     const handleDelete = (user) => {
-        const confirmDelete = window.confirm("Are you sure? You won't be able to revert this!");
-        if (!confirmDelete) return;
-
-        axiosSecure.delete(`/users/${user._id}`)
-            .then(res => {
-                if (res.data.deletedCount > 0) {
-                    refetch();
-                    toast.success('User has been deleted successfully!', {
-                        duration: 4000,
-                        position: 'top-bottom',
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axiosSecure.delete(`/users/${user._id}`)
+                    .then(res => {
+                        if (res.data.deletedCount > 0) {
+                            refetch();
+                            toast.success('User has been deleted successfully!', {
+                                duration: 4000,
+                                position: 'top-bottom',
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        toast.error('Failed to delete user.', {
+                            duration: 4000,
+                            position: 'top-right',
+                        });
+                        console.log(error);
                     });
-                }
-            })
-            .catch(error => {
-                toast.error('Failed to delete user.', {
-                    duration: 4000,
-                    position: 'top-right',
-                });
-                console.log(error);
-            });
+            }
+        });
     };
 
-    // Dropdown বন্ধ করার ফাংশন
     const handleOutsideClick = () => {
         setOpenDropdown(null);
     };
 
+    const Loader = () => (
+        <div className="text-center py-8 text-gray-500">
+            <svg className="animate-spin h-6 w-6 text-blue-500 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+            </svg>
+            <p>Loading...</p>
+        </div>
+    );
+
     return (
         <>
             <div className="min-h-screen bg-gray-100 rounded-2xl" onClick={handleOutsideClick}>
-
                 {/* Header */}
                 <div className="bg-white shadow-sm rounded-2xl">
                     <div className="px-4 py-3 sm:px-6 sm:py-4">
@@ -98,13 +112,6 @@ const UserControl = () => {
                     <div className="space-y-4 sm:space-y-6">
                         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
                             <h2 className="text-lg sm:text-xl font-semibold text-gray-900">User Management</h2>
-                            {/* <button
-                                // onClick={() => setShowAddUser(true)}
-                                className="bg-blue-600 text-white px-3 py-2 rounded-lg hover:bg-blue-700 flex items-center justify-center text-sm"
-                            >
-                                <Plus className="w-4 h-4 mr-1 sm:mr-2" />
-                                Add User
-                            </button> */}
                         </div>
 
                         {/* User Search */}
@@ -121,72 +128,18 @@ const UserControl = () => {
                         {/* Users List */}
                         <div className="bg-white rounded-lg shadow overflow-hidden">
                             {/* Mobile Cards */}
+                          
                             <div className="block lg:hidden space-y-3 p-4">
-                                {users.length === 0 ? (
-                                    <div className="text-center py-8 text-gray-500">
-                                        <User className="w-12 h-12 mx-auto mb-3 text-gray-400" />
-                                        <p>No users found</p>
-                                    </div>
-                                ) : (
-                                    users.map((user, index) => (
-                                        <div key={user._id} className="bg-gray-50 rounded-lg p-4">
-                                            <div className="flex items-start justify-between mb-3">
-                                                <div className="flex items-center">
-                                                    <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                                                        <User className="w-5 h-5 text-blue-600" />
-                                                    </div>
-                                                    <div className="ml-3">
-                                                        <div className="text-sm font-medium text-gray-900">{user.name}</div>
-                                                        <div className="text-xs text-gray-500 flex items-center">
-                                                            <Mail className="w-3 h-3 mr-1" />
-                                                            {user.email}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <span className="text-xs text-gray-500">#{currentPage * usersPerPage + index + 1}</span>
-                                            </div>
-
-                                            <div className="flex items-center justify-between mb-3">
-                                                <div className="flex items-center">
-                                                    {user.role === 'admin' && <Shield className="w-4 h-4 text-orange-500 mr-1" />}
-                                                    <span className={`px-2 py-1 text-xs font-semibold rounded-full ${user.role === 'admin' ? 'bg-orange-100 text-orange-800' : 'bg-blue-100 text-blue-800'
-                                                        }`}>
-                                                        {user.role}
-                                                    </span>
-                                                </div>
-                                            </div>
-
-                                            <div className="relative" onClick={(e) => e.stopPropagation()}>
-                                                <button
-                                                    onClick={() => setOpenDropdown(openDropdown === user._id ? null : user._id)}
-                                                    className="w-full bg-gray-100 text-gray-700 px-3 py-2 rounded text-sm font-medium hover:bg-gray-200 flex items-center justify-center"
-                                                >
-                                                    Actions
-                                                    <ChevronDown className="w-4 h-4 ml-1" />
-                                                </button>
-
-                                                {openDropdown === user._id && (
-                                                    <div className="absolute left-0 right-0 mt-1 bg-white border border-gray-200 rounded-md shadow-lg z-20">
-                                                        <div className="py-1">
-                                                            <button
-                                                                onClick={() => handleToggleRole(user)}
-                                                                className={`block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${user.role === 'user' ? 'text-orange-600' : 'text-blue-600'
-                                                                    }`}
-                                                            >
-                                                                {user.role === 'user' ? 'Make Admin' : 'Make User'}
-                                                            </button>
-                                                            <button
-                                                                onClick={() => handleDelete(user)}
-                                                                className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 text-red-600"
-                                                            >
-                                                                Delete User
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        </div>
-                                    )))}
+                                <MobileUserControl
+                                    users={users}
+                                    currentPage={currentPage}
+                                    usersPerPage={usersPerPage}
+                                    openDropdown={openDropdown}
+                                    setOpenDropdown={setOpenDropdown}
+                                    handleToggleRole={handleToggleRole}
+                                    handleDelete={handleDelete}
+                                    isFetching={isFetching}
+                                />
                             </div>
 
                             {/* Desktop Table */}
@@ -202,7 +155,13 @@ const UserControl = () => {
                                         </tr>
                                     </thead>
                                     <tbody className="bg-white divide-y divide-gray-200">
-                                        {users.length === 0 ? (
+                                        {isFetching ? (
+                                            <tr>
+                                                <td colSpan="5">
+                                                    <Loader />
+                                                </td>
+                                            </tr>
+                                        ) : users.length === 0 ? (
                                             <tr>
                                                 <td colSpan="5" className="px-6 py-12 text-center text-gray-500">
                                                     <User className="w-12 h-12 mx-auto mb-3 text-gray-400" />
@@ -234,7 +193,7 @@ const UserControl = () => {
                                                     <td className="px-6 py-4 whitespace-nowrap">
                                                         <button
                                                             onClick={() => handleToggleRole(user)}
-                                                            className={`inline-flex items-center px-3 py-1 rounded text-xs font-medium ${user.role === 'admin' ? 'bg-green-600 text-white' : 'bg-blue-500 text-white'
+                                                            className={`inline-flex items-center px-4 py-1.5 rounded text-xs font-medium ${user.role === 'admin' ? 'bg-green-600 text-white' : 'bg-blue-500 text-white'
                                                                 } hover:opacity-80`}
                                                             title={`Make ${user.role === 'admin' ? 'User' : 'Admin'}`}
                                                         >
@@ -245,13 +204,17 @@ const UserControl = () => {
                                                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                                         <button
                                                             onClick={() => handleDelete(user)}
-                                                            className="inline-flex items-center px-3 py-1 rounded text-xs font-medium bg-red-600 text-white hover:bg-red-700"
+                                                            className="inline-flex items-center justify-center gap-1 px-4 py-1.5 rounded-md text-xs font-medium text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300 transition-all duration-200"
+                                                            title="Delete User"
                                                         >
-                                                            <Trash2 className="w-3 h-3" />
+                                                            <Trash2 className="w-4 h-4" />
+                                                            <span>Delete</span>
                                                         </button>
                                                     </td>
+
                                                 </tr>
-                                            )))}
+                                            ))
+                                        )}
                                     </tbody>
                                 </table>
                             </div>

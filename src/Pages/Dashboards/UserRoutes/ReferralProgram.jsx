@@ -1,4 +1,3 @@
-// ===== FIXED REFERRAL PROGRAM COMPONENT =====
 
 import { useState, useEffect } from 'react';
 import { Users, Gift, Copy, Check, RefreshCw } from 'lucide-react';
@@ -23,10 +22,10 @@ const ReferralProgram = () => {
         setError('');
         
         try {
-            console.log('Loading referral data for:', user.email); // Debug log
+            // console.log('Loading referral data for:', user.email); // Debug log
             
             const response = await axiosSecure.get(`/referral-info/${user.email}`);
-            console.log('Referral data response:', response.data); // Debug log
+            // console.log('Referral data response:', response.data); // Debug log
             
             setReferrals(response.data.totalReferrals || 0);
             setEarned(response.data.referralBalance || 0);
@@ -34,7 +33,7 @@ const ReferralProgram = () => {
             
             // If no referral code, try to regenerate
             if (!response.data.referralCode) {
-                console.log('No referral code found, attempting to regenerate...');
+                // console.log('No referral code found, attempting to regenerate...');
                 await regenerateReferralCode();
             }
             
@@ -59,7 +58,7 @@ const ReferralProgram = () => {
         
         try {
             const response = await axiosSecure.post(`/regenerate-referral/${user.email}`);
-            console.log('Regenerated referral code:', response.data);
+            // console.log('Regenerated referral code:', response.data);
             
             if (response.data.referralCode) {
                 setReferralCode(response.data.referralCode);
@@ -119,7 +118,7 @@ const ReferralProgram = () => {
     }
 
     return (
-        <div className='max-w-7xl mx-auto sm:px-0 px-2'>
+        <div className='max-w-7xl mx-auto'>
             <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 border border-gray-100">
                 {/* Header */}
                 <div className="text-center mb-6">
@@ -189,7 +188,7 @@ const ReferralProgram = () => {
                         </div>
                         
                         {/* Share Instructions */}
-                        <div className="text-xs text-gray-600 bg-white p-2 rounded border">
+                        <div className="text-xs text-gray-600 bg-white p-2 rounded border border-gray-300">
                             💡 Share this link with friends. When they sign up using your code, you'll earn $10!
                         </div>
                     </div>
@@ -221,26 +220,6 @@ const ReferralProgram = () => {
                         </ul>
                     </div>
 
-                    {/* Debug Info (Development Only) */}
-                    {process.env.NODE_ENV === 'development' && (
-                        <div className="p-3 bg-gray-100 rounded text-xs">
-                            <p><strong>Debug Info:</strong></p>
-                            <p>User Email: {user?.email}</p>
-                            <p>Referral Code: {referralCode || 'Not generated'}</p>
-                            <p>Total Referrals: {referrals}</p>
-                            <p>Total Earned: ${earned}</p>
-                        </div>
-                    )}
-
-                    {/* Refresh Button */}
-                    <div className="text-center">
-                        <button
-                            onClick={loadReferralData}
-                            className="text-sm text-purple-600 hover:text-purple-800 underline"
-                        >
-                            Refresh Data
-                        </button>
-                    </div>
                 </div>
             </div>
         </div>

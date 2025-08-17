@@ -44,9 +44,9 @@ const TaskCenter = () => {
             reward: 1.0,
             type: 'social',
             icon: FaTelegram,
-            color: 'bg-purple-500',
+            color: 'bg-[#2B7FFF]',
             oneTime: true,
-            telegramLink: 'https://t.me/testchannel001', // আপনার আসল Telegram link দিন
+            telegramLink: 'https://t.me/datapcl', // আপনার আসল Telegram link দিন
         },
         {
             id: 'daily_login',
@@ -140,8 +140,8 @@ const TaskCenter = () => {
 
             setCompletingTask(null);
 
-        } catch (error) {
-            console.log(error);
+        } catch {
+            // console.log(error);
             setCompletingTask(null);
         }
     };
@@ -183,7 +183,7 @@ const TaskCenter = () => {
     }
 
     return (
-        <div className='max-w-7xl mx-auto sm:px-0 px-2'>
+        <div className='max-w-7xl mx-auto'>
             <div className="bg-white rounded-xl shadow-lg sm:p-6 p-4 border border-gray-100">
                 <div className="text-center mb-6">
                     <div className="bg-gradient-to-r from-purple-500 to-pink-500 p-3 rounded-full w-fit mx-auto mb-4">

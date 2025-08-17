@@ -1,10 +1,27 @@
-import React from 'react';
 import { FaArrowRight } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import useAuth from '../../Hooks/UseAuth';
+import useAdmin from '../../Hooks/useAdmin';
 
 const Financial = () => {
+    const [isAdmin] = useAdmin();
+    const { user } = useAuth();
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        if (!user) {
+
+            navigate("/register");
+        } else if (isAdmin) {
+            navigate("dashboard/adminProfile")
+        } else {
+            navigate("dashboard/accountBalance");
+        }
+    };
+
+
     return (
-        <div className=' sm:py-12 py-6 px-2'> 
+        <div data-aos="fade-up" className='mt-32 px-4 sm:px-0 '>
             <div className="  border border-[#345f7a] bg-gradient-to-r from-[#131F3D] via-[#1A306F] to-[#21429e] rounded-lg sm:w-8/12  mx-auto sm:p-12 p-4">
 
                 {/* categories */}
@@ -19,11 +36,13 @@ const Financial = () => {
                 </div>
                 <div className="flex justify-center items-center mt-4">
                     {/* location */}
-                    <Link to='/login'>
-                        <button className=" text-white bg-[#1490DE] flex items-center  gap-x-2 border-none px-4 py-2 rounded-full">
-                            <span>Get Started Free</span> <FaArrowRight />
-                        </button>
-                    </Link>
+
+                    <button
+                        onClick={handleClick}
+                        className=" text-white bg-[#1490DE] flex items-center  gap-x-2 border-none px-4 py-2 rounded-full">
+                        <span>Get Started Free</span> <FaArrowRight />
+                    </button>
+
                 </div>
             </div>
         </div>

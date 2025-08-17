@@ -1,5 +1,6 @@
 import { FaCheckCircle, FaHeart } from "react-icons/fa";
 import { IoBookOutline } from "react-icons/io5";
+import { TrendingUp } from "lucide-react";
 
 const About = () => {
     return (
@@ -11,7 +12,7 @@ const About = () => {
             </header>
 
             {/* Main Content */}
-            <main className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 py-12">
+            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 {/* Our Story */}
                 <section className="sm:mb-16 mb-8 bg-white rounded-2xl shadow-lg p-4 sm:p-8 transition-all duration-300 hover:translate-y-[-5px] hover:shadow-2xl">
                     <div className="flex items-center sm:mb-6 mb-4">
@@ -59,7 +60,7 @@ const About = () => {
                 </section>
 
                 {/* ROI Highlight */}
-                <section className="mb-12">
+                <section className="mb-8">
                     <div className="rounded-2xl shadow-lg p-4 sm:p-8 text-white text-center transition-all duration-300 hover:translate-y-[-5px] hover:shadow-2xl" style={{ background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)' }}>
                         <h3 className="text-xl sm:text-2xl font-bold mb-4">Return on Investment (ROI)</h3>
                         <p className="text-sm sm:text-lg opacity-90">
@@ -68,66 +69,60 @@ const About = () => {
                     </div>
                 </section>
                 {/* Investment Opportunities */}
-                <section className="mb-16">
+
+
+                <section className="mb-12">
                     <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
                         <div className="bg-gray-800 text-white p-6">
-                            <h3 className="text-2xl font-bold text-center">Investment Opportunities</h3>
+                            <h3 className="text-xl sm:text-2xl font-bold text-center">Investment Opportunities</h3>
                         </div>
-                        <div className="p-6">
+                        <div className="sm:p-6 p-4">
                             <div className="overflow-x-auto">
                                 <table className="w-full">
                                     <thead>
                                         <tr className="border-b-2 border-gray-200">
-                                            <th className="text-left py-4 px-6 font-semibold text-gray-800">Investment (USD)</th>
-                                            <th className="text-left py-4 px-6 font-semibold text-gray-800">Profit Rate (%)</th>
-                                            <th className="text-left py-4 px-6 font-semibold text-gray-800">Profit (USD)</th>
+                                            <th className="text-left sm:py-4 py-2 px-4 sm:px-6 font-semibold text-gray-800">Investment (USD)</th>
+                                            <th className="text-left sm:py-4 py-2 px-4 sm:px-6 font-semibold text-gray-800">Profit Rate (%)</th>
+                                            <th className="text-left sm:py-4 py-2 px-4 sm:px-6 font-semibold text-gray-800">Profit (USD)</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr className="investment-row border-b border-gray-100">
-                                            <td className="py-4 px-6 font-semibold text-blue-600">$50</td>
-                                            <td className="py-4 px-6 text-green-600 font-semibold">7%</td>
-                                            <td className="py-4 px-6 font-bold text-gray-800">
+                                            <td className="sm:py-4 py-2 px-4 sm:px-6 font-semibold text-blue-600">$50</td>
+                                            <td className="sm:py-4 py-2 px-4 sm:px-6 text-green-600 font-semibold">7%</td>
+                                            <td className="sm:py-4 py-2 px-4 sm:px-6 font-bold text-gray-800">
                                                 <div className="flex items-center">
-                                                    <svg className="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 11l5-5m0 0l5 5m-5-5v12"></path>
-                                                    </svg>
+                                                    <TrendingUp className="w-5 h-5 text-green-500 mr-2" />
                                                     $3.50
                                                 </div>
                                             </td>
                                         </tr>
                                         <tr className="investment-row border-b border-gray-100">
-                                            <td className="py-4 px-6 font-semibold text-blue-600">$140</td>
-                                            <td className="py-4 px-6 text-green-600 font-semibold">16%</td>
-                                            <td className="py-4 px-6 font-bold text-gray-800">
+                                            <td className="sm:py-4 py-2 px-4 sm:px-6 font-semibold text-blue-600">$140</td>
+                                            <td className="sm:py-4 py-2 px-4 sm:px-6 text-green-600 font-semibold">16%</td>
+                                            <td className="sm:py-4 py-2 px-4 sm:px-6 font-bold text-gray-800">
                                                 <div className="flex items-center">
-                                                    <svg className="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 11l5-5m0 0l5 5m-5-5v12"></path>
-                                                    </svg>
+                                                    <TrendingUp className="w-5 h-5 text-green-500 mr-2" />
                                                     $22.40
                                                 </div>
                                             </td>
                                         </tr>
                                         <tr className="investment-row border-b border-gray-100">
-                                            <td className="py-4 px-6 font-semibold text-blue-600">$300</td>
-                                            <td className="py-4 px-6 text-green-600 font-semibold">33%</td>
-                                            <td className="py-4 px-6 font-bold text-gray-800">
+                                            <td className="sm:py-4 py-2 px-4 sm:px-6 font-semibold text-blue-600">$300</td>
+                                            <td className="sm:py-4 py-2 px-4 sm:px-6 text-green-600 font-semibold">33%</td>
+                                            <td className="sm:py-4 py-2 px-4 sm:px-6 font-bold text-gray-800">
                                                 <div className="flex items-center">
-                                                    <svg className="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 11l5-5m0 0l5 5m-5-5v12"></path>
-                                                    </svg>
+                                                    <TrendingUp className="w-5 h-5 text-green-500 mr-2" />
                                                     $99.00
                                                 </div>
                                             </td>
                                         </tr>
                                         <tr className="investment-row">
-                                            <td className="py-4 px-6 font-semibold text-blue-600">$800</td>
-                                            <td className="py-4 px-6 text-green-600 font-semibold">70%</td>
-                                            <td className="py-4 px-6 font-bold text-gray-800">
+                                            <td className="sm:py-4 py-2 px-4 sm:px-6 font-semibold text-blue-600">$800</td>
+                                            <td className="sm:py-4 py-2 px-4 sm:px-6 text-green-600 font-semibold">70%</td>
+                                            <td className="sm:py-4 py-2 px-4 sm:px-6 font-bold text-gray-800">
                                                 <div className="flex items-center">
-                                                    <svg className="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 11l5-5m0 0l5 5m-5-5v12"></path>
-                                                    </svg>
+                                                    <TrendingUp className="w-5 h-5 text-green-500 mr-2" />
                                                     $560.00
                                                 </div>
                                             </td>

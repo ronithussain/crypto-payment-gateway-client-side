@@ -9,8 +9,10 @@ export const axiosSecure = axios.create({
 })
 
 const useAxiosSecure = () => {
+
     const navigate = useNavigate();
     const { handleLogout, } = useAuth();
+    
     // request interceptor to add authorization header for every secure call to api 
     axiosSecure.interceptors.request.use(function (config) {
         // start jwt
