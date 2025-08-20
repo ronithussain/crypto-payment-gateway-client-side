@@ -157,7 +157,6 @@ const PaymentLogos = () => {
               </div>
             </div>
           </div>
-          {/* <ProTip></ProTip> */}
         </div>
       </section>
     </main>

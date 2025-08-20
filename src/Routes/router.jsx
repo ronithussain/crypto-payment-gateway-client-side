@@ -44,6 +44,7 @@ export const router = createBrowserRouter([
         <DashBoard />
       </PrivateRoute>
     ),
+    errorElement: <ErrorPage />,
     children: [
       // User Routes
       { path: "accountBalance", element: <AccountBalance /> },

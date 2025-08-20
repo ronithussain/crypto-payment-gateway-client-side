@@ -28,7 +28,7 @@ const AccountBalance = () => {
   // console.log(userData);
 
   const balance = userData?.balance || 0;
-  const totalProfit = 0; // later dynamic logic can be added here
+  // const totalProfit = 0; // later dynamic logic can be added here
 
   //   const formattedBalance = balance.toLocaleString("en-US", { 
   //   minimumFractionDigits: 2, 
@@ -52,13 +52,13 @@ const AccountBalance = () => {
 
           <div className="divider"></div>
 
-          <div className="flex justify-between items-center">
+          {/* <div className="flex justify-between items-center">
             <div className="flex items-center gap-2">
               <span className="text-white"><FaArrowTrendUp /></span>
               <span>Total Profit</span>
             </div>
             <p className="text-xl font-bold">${totalProfit.toFixed(2)}</p>
-          </div>
+          </div> */}
         </div>
       </div>
       <LiveProfitSystem />

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { BsArrowLeft } from "react-icons/bs";
 import { FaEye, FaEyeSlash, FaCheck, FaTimes } from "react-icons/fa";
-import { Link, useLocation, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -26,8 +26,9 @@ const Register = () => {
     const { register, handleSubmit, reset, watch, formState: { errors } } = useForm();
     const password = watch("password");
     const navigate = useNavigate();
-    const location = useLocation();
-    const from = location.state?.from?.pathname || '/';
+    // const location = useLocation();
+    // Dashboard redirect instead of previous location
+    const from = '/dashboard/accountBalance';
 
     // Password validation helper function
     const getPasswordErrors = (password) => {
@@ -147,13 +148,18 @@ const Register = () => {
                         title: "Registration Successful!",
                         text: successMessage,
                         icon: "success"
+                    }).then(() => {
+                        // Navigate to dashboard after success message
+                        navigate(from, { replace: true });
                     });
-                    navigate(from, { replace: true });
                 } else {
                     Swal.fire({
                         title: "Info",
                         text: res.data.message || "Account processed",
                         icon: "info"
+                    }).then(() => {
+                        // Navigate to dashboard even if account already exists
+                        navigate(from, { replace: true });
                     });
                 }
             })

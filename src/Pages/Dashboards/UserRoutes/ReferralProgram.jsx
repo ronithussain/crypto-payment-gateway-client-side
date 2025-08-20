@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Users, Gift, Copy, Check, RefreshCw } from 'lucide-react';
 import useAuth from '../../../Hooks/UseAuth';

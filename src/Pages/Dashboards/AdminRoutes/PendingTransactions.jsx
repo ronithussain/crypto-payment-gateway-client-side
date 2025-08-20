@@ -2,8 +2,13 @@ import { useQuery } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import useAxiosSecure from '../../../Hooks/useAxiosSecure';
 import { useState, useEffect } from 'react';
-import { Search, ChevronDown, ChevronLeft, ChevronRight, DollarSign, Mail, X } from 'lucide-react';
+import { ChevronDown, DollarSign, Mail, X } from 'lucide-react';
 import MobilePendingTransaction from './MobilePendingTransaction';
+import SearchInput from '../SearchAndPagination/SearchInput';
+import Pagination from '../SearchAndPagination/Pagination';
+
+// Reusable components
+
 
 const PendingTransactions = () => {
     const axiosSecure = useAxiosSecure();
@@ -27,12 +32,11 @@ const PendingTransactions = () => {
         queryKey: ['pendingTransactions'],
         queryFn: async () => {
             const res = await axiosSecure.get('/api/transactions/pending');
-            // console.log(res.data, 'all pending transaction with proofUrl');
             return res.data;
         }
     });
 
-    // Search filter: client side filter transactions
+    // Search filter
     const filteredTransactions = transactions.filter(transaction => {
         const search = transactionSearchTerm.toLowerCase();
         return (
@@ -51,8 +55,6 @@ const PendingTransactions = () => {
     const startTransactionIndex = (currentTransactionPage - 1) * itemsPerPage;
     const endTransactionIndex = startTransactionIndex + itemsPerPage;
     const currentTransactions = filteredTransactions.slice(startTransactionIndex, endTransactionIndex);
-
-    // console.log(currentTransactions);
 
     // Approve and Decline handlers
     const handleApprove = async (_id) => {
@@ -83,10 +85,6 @@ const PendingTransactions = () => {
         setOpenDropdown(null);
     };
 
-    const handleTransactionSearch = (term) => {
-        setTransactionSearchTerm(term);
-    };
-
     const Loader = () => (
         <div className="text-center py-8 text-gray-500">
             <svg className="animate-spin h-6 w-6 text-blue-500 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -111,17 +109,12 @@ const PendingTransactions = () => {
                 <div className="space-y-4 sm:space-y-6">
                     <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Transaction Management</h2>
 
-                    {/* Transaction Search */}
-                    <div className="relative">
-                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                        <input
-                            type="text"
-                            placeholder="Search transactions..."
-                            value={transactionSearchTerm}
-                            onChange={(e) => handleTransactionSearch(e.target.value)}
-                            className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                        />
-                    </div>
+                    {/* Transaction Search (reused component) */}
+                    <SearchInput
+                        placeholder="Search transactions..."
+                        value={transactionSearchTerm}
+                        onChange={setTransactionSearchTerm}
+                    />
 
                     {/* Transactions List */}
                     <div className="bg-white rounded-lg shadow overflow-hidden">
@@ -257,45 +250,18 @@ const PendingTransactions = () => {
                         </div>
                     </div>
 
-                    {/* Pagination */}
+                    {/* Pagination (reused component) */}
                     {filteredTransactions.length > itemsPerPage && (
-                        <div className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6 rounded-lg shadow">
-                            <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-                                <p className="text-sm text-gray-700">
-                                    Showing <span className="font-medium">{startTransactionIndex + 1}</span> to{' '}
-                                    <span className="font-medium">{Math.min(endTransactionIndex, filteredTransactions.length)}</span> of{' '}
-                                    <span className="font-medium">{filteredTransactions.length}</span> transactions
-                                </p>
-                                <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
-                                    <button
-                                        onClick={() => setCurrentTransactionPage(Math.max(currentTransactionPage - 1, 1))}
-                                        disabled={currentTransactionPage === 1}
-                                        className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50"
-                                    >
-                                        <ChevronLeft className="h-5 w-5" />
-                                    </button>
-                                    {Array.from({ length: totalTransactionPages }, (_, i) => i + 1).map((page) => (
-                                        <button
-                                            key={page}
-                                            onClick={() => setCurrentTransactionPage(page)}
-                                            className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${page === currentTransactionPage
-                                                ? 'z-10 bg-blue-50 border-blue-500 text-blue-600'
-                                                : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'
-                                                }`}
-                                        >
-                                            {page}
-                                        </button>
-                                    ))}
-                                    <button
-                                        onClick={() => setCurrentTransactionPage(Math.min(currentTransactionPage + 1, totalTransactionPages))}
-                                        disabled={currentTransactionPage === totalTransactionPages}
-                                        className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50"
-                                    >
-                                        <ChevronRight className="h-5 w-5" />
-                                    </button>
-                                </nav>
-                            </div>
-                        </div>
+                        <Pagination
+                            currentPage={currentTransactionPage - 1} // zero-based
+                            totalPages={totalTransactionPages}
+                            totalItems={filteredTransactions.length}
+                            itemsPerPage={itemsPerPage}
+                            onPageChange={(page) => setCurrentTransactionPage(page + 1)} // convert back to 1-based
+                            startIndex={startTransactionIndex}
+                            endIndex={endTransactionIndex}
+                            itemName="transactions"
+                        />
                     )}
                 </div>
             </div>

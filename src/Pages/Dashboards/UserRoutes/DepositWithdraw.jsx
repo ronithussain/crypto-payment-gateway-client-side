@@ -123,11 +123,19 @@ const DepositWithdraw = () => {
             .catch((err) => {
                 if (err.response) {
                     console.error('Axios error response data:', err.response.data);
-                    toast.error(err.response.data.error || 'Failed to submit transaction');
+
+                    // ✅ NEW: Special handling for task completion error
+                    if (err.response.data.error === 'Please complete tasks 1 to 50 before withdrawing') {
+                        const currentProgress = err.response.data.taskProgress || 0;
+                        toast.error(`Please complete tasks 1 to 50 before withdrawing. Current progress: ${currentProgress}/50`);
+                    } else {
+                        toast.error(err.response.data.error || 'Failed to submit transaction');
+                    }
                 } else {
                     console.error('Axios error:', err);
                     toast.error('Failed to submit transaction');
                 }
+                setIsProcessing(false); // ✅ Add this line to reset processing state
             });
 
 

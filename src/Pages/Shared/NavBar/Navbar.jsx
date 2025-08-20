@@ -78,7 +78,7 @@ const Navbar = () => {
                     </div>
                     <Link to="/">
                         <h3 className="font-medium sm:text-2xl md:text-2xl text-base text-white/90">
-                            Bank<span className="text-[#40aaec]">P</span>rofit
+                            E-<span className="text-[#40aaec]">B</span>anking
                         </h3>
                     </Link>
                 </div>
@@ -179,7 +179,7 @@ const Navbar = () => {
                             <div className="my-4 mt-12">
                                 <Link to="/" onClick={handleDrawerClose} className="flex items-center">
                                     <h3 className="font-medium sm:text-2xl md:text-2xl text-base text-white/90">
-                                        DataPrice<span className="text-[#40aaec]"> C</span>ompany
+                                        E<span className="text-[#40aaec]"> B</span>anking
                                     </h3>
                                 </Link>
                             </div>

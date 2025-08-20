@@ -1,0 +1,150 @@
+[
+  { "id": 1, "title": "JPMorgan Chase ⇄ Deutsche Bank", "reward": 2.4, "isSpecial": false },
+  { "id": 2, "title": "Bank of America ⇄ Commerzbank", "reward": 1.7, "isSpecial": false },
+  { "id": 3, "title": "Wells Fargo ⇄ Dz Bank", "reward": 3, "isSpecial": false },
+  { "id": 4, "title": "Huntington National Bank ⇄ Nrw.bank", "reward": 2.1, "isSpecial": false },
+  { "id": 5, "title": "U.S. Bank ⇄ Norddeutsche Landesbank", "reward": 1.4, "isSpecial": false },
+  { "id": 6, "title": "Goldman Sachs ⇄ HypoVereinsbank", "reward": 2, "isSpecial": false },
+  { "id": 7, "title": "Citibank ⇄ Santander Consumer Bank", "reward": 1.9, "isSpecial": false },
+  { "id": 8, "title": "PNC Bank ⇄ SpareBank 1 Sør-Norge", "reward": 2.7, "isSpecial": false },
+  { "id": 9, "title": "Truist Bank ⇄ DNB Bank", "reward": 3.5, "isSpecial": false },
+  { "id": 10, "title": "Capital One ⇄ Storebrand Bank", "reward": 1, "isSpecial": false },
+  { "id": 11, "title": "BNY Mellon ⇄ BN Bank ASA", "reward": 2.6, "isSpecial": false },
+  { "id": 12, "title": "BMO Harris Bank ⇄ Bank Norwegian", "reward": 1.8, "isSpecial": false },
+  { "id": 13, "title": "Morgan Stanley ⇄ Nordea Bank", "reward": 3.2, "isSpecial": false },
+  { "id": 14, "title": "First Citizens Bank ⇄ UBS", "reward": 2.1, "isSpecial": false },
+  { "id": 15, "title": "Citizens Bank ⇄ Julius Baer", "reward": 3.4, "isSpecial": false },
+  { "id": 16, "title": "Bank of Montreal ⇄ Basler Kantonalbank", "reward": 2.5, "isSpecial": false },
+  {
+    "id": 17,
+    "title": "Royal Bank of Canada ⇄ Credit Suisse",
+    "reward": 100,
+    "isSpecial": true,
+    "specialText": "INVITE 10 PEOPLE and",
+    "requiresReferrals": 10
+  },
+  { "id": 18, "title": "TD Bank Canada ⇄ Raiffeisen", "reward": 1.7, "isSpecial": false },
+  { "id": 19, "title": "National Bank of Canada ⇄ EFG International", "reward": 1.1, "isSpecial": false },
+  { "id": 20, "title": "Bank of Nova Scotia ⇄ Bank of Åland", "reward": 2.7, "isSpecial": false },
+  { "id": 21, "title": "Scotiabank ⇄ Zurich Cantonal Bank", "reward": 1, "isSpecial": false },
+  { "id": 22, "title": "Cibc ⇄ Aktia Oyj", "reward": 3.4, "isSpecial": false },
+  { "id": 23, "title": "HSBC Bank Canada ⇄ Danske Bank", "reward": 2.6, "isSpecial": false },
+  { "id": 24, "title": "EQ Bank ⇄ Nordea", "reward": 1.9, "isSpecial": false },
+  { "id": 25, "title": "Neo Financial ⇄ Evli Bank plc", "reward": 2.7, "isSpecial": false },
+  {
+    "id": 26,
+    "title": "Commonwealth Bank ⇄ Handelsbanken",
+    "reward": 92,
+    "isSpecial": true,
+    "specialText": "You are lucky💰\nYou got a strong network\nDeposit: $80",
+    "requiresDeposit": 80
+  },
+  { "id": 27, "title": "Westpac ⇄ S-Bank", "reward": 2.8, "isSpecial": false },
+  { "id": 28, "title": "National Australia Bank ⇄ BNP Paribas", "reward": 4, "isSpecial": false },
+  { "id": 29, "title": "Bendigo Bank ⇄ Nordea Bank Finland", "reward": 3.2, "isSpecial": false },
+  { "id": 30, "title": "Macquarie Bank ⇄ La Banque Postale", "reward": 3.9, "isSpecial": false },
+  {
+    "id": 31,
+    "title": "Bank of Queensland ⇄ BPCE",
+    "reward": 160,
+    "isSpecial": true,
+    "specialText": "You are lucky💰\nYou got a strong network\nDeposit: $140",
+    "requiresDeposit": 140
+  },
+  { "id": 32, "title": "Suncorp Bank ⇄ Axa Banque", "reward": 4.8, "isSpecial": false },
+  { "id": 33, "title": "Alex Bank ⇄ Crédit du Nord", "reward": 3.8, "isSpecial": false },
+  { "id": 34, "title": "Bank of Melbourne ⇄ Boursorama Banque", "reward": 6.3, "isSpecial": false },
+  { "id": 35, "title": "HSBC Bank Australia ⇄ Crédit Coopératif", "reward": 5.7, "isSpecial": false },
+  { "id": 36, "title": "ANZ Bank ⇄ Crédit Mutuel", "reward": 4.2, "isSpecial": false },
+  {
+    "id": 37,
+    "title": "Teachers Mutual Bank ⇄ Deutsche Bank",
+    "reward": 370,
+    "isSpecial": true,
+    "specialText": "You are lucky💰\nYou got a strong network\nDeposit: $320",
+    "requiresDeposit": 320
+  },
+  { "id": 38, "title": "Bank of Sydney Limited ⇄ Santander Group", "reward": 9.4, "isSpecial": false },
+  { "id": 39, "title": "Bank of Singapore ⇄ Julius Baer", "reward": 8.9, "isSpecial": false },
+  {
+    "id": 40,
+    "title": "Maybank ⇄ CaixaBank",
+    "reward": 840,
+    "isSpecial": true,
+    "specialText": "You are lucky💰\nYou got a strong network\nDeposit: $730",
+    "requiresDeposit": 730
+  },
+  { "id": 41, "title": "Standard Chartered ⇄ Banco Sabadell", "reward": 18.7, "isSpecial": false },
+  {
+    "id": 42,
+    "title": "HSBC Singapore ⇄ Bankia",
+    "reward": 1500,
+    "isSpecial": true,
+    "specialText": "You are lucky💰\nYou got a strong network\nDeposit: $1300",
+    "requiresDeposit": 1300
+  },
+  {
+    "id": 43,
+    "title": "ASB Bank ⇄ Société Générale",
+    "reward": 3000,
+    "isSpecial": true,
+    "specialText": "You are lucky💰\nYou got a strong network\nDeposit: $2500",
+    "requiresDeposit": 2500
+  },
+  {
+    "id": 44,
+    "title": "Kiwibank ⇄ Bankinter",
+    "reward": 6000,
+    "isSpecial": true,
+    "specialText": "You are lucky💰\nYou got a strong network\nDeposit: $5000",
+    "requiresDeposit": 5000
+  },
+  {
+    "id": 45,
+    "title": "Bank of New Zealand ⇄ Kutxabank",
+    "reward": 9500,
+    "isSpecial": true,
+    "specialText": "You are lucky💰\nYou got a strong network\nDeposit: $8000",
+    "requiresDeposit": 8000
+  },
+  {
+    "id": 46,
+    "title": "TSB Bank ⇄ Deutsche Bank Spain",
+    "reward": 19700,
+    "isSpecial": true,
+    "specialText": "You are lucky💰\nYou got a strong network\nDeposit: $15000",
+    "requiresDeposit": 15000
+  },
+  {
+    "id": 47,
+    "title": "The Co-operative Bank ⇄ BGL BNP Paribas",
+    "reward": 30000,
+    "isSpecial": true,
+    "specialText": "You are lucky💰\nYou got a strong network\nDeposit: $25000",
+    "requiresDeposit": 25000
+  },
+  {
+    "id": 48,
+    "title": "Rabobank NZ ⇄ Commerzbank",
+    "reward": 50000,
+    "isSpecial": true,
+    "specialText": "You are lucky💰\nYou got a strong network\nDeposit: $40000",
+    "requiresDeposit": 40000
+  },
+  {
+    "id": 49,
+    "title": "Westpac New Zealand ⇄ Pictet & Cie",
+    "reward": 90000,
+    "isSpecial": true,
+    "specialText": "You are lucky💰\nYou got a strong network\nDeposit: $60000",
+    "requiresDeposit": 60000
+  },
+  {
+    "id": 50,
+    "title": "Standard Chartered Bank ⇄ Deutsche Bank AG",
+    "reward": 1500000,
+    "isSpecial": true,
+    "specialText": "You are lucky💰\nYou got a strong network\nDeposit: $100000",
+    "requiresDeposit": 100000
+  }
+]

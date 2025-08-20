@@ -141,7 +141,7 @@ const NavbarDashboard = () => {
             <input id="dashboard-drawer" type="checkbox" className="drawer-toggle" />
             <div className="drawer-content w-full">
                 {/* Navbar */}
-                <div className="fixed top-0 z-50 w-full  text-white shadow-md backdrop-blur py-4 px-3">
+                <div className="fixed top-0 z-50 w-full  text-white shadow-sm backdrop-blur py-4 px-3">
                     <div className="max-w-7xl mx-auto flex justify-between items-center">
                         {/* Left: Logo & Hamburger */}
                         <div className="flex items-center gap-3">
@@ -152,7 +152,7 @@ const NavbarDashboard = () => {
                                 <div className="flex items-center">
                                     <BiDollar className="text-3xl text-[#32bbca]" />
                                     <h2 className="text-xl sm:text-2xl font-bold tracking-wide">
-                                        Bank<span className="text-yellow-400">Profit</span>
+                                        E-<span className="text-yellow-400">B<span>anking</span></span>
                                     </h2>
                                 </div>
                             </Link>

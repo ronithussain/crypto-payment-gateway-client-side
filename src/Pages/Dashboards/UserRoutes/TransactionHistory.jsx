@@ -8,13 +8,14 @@ import {
 import useDbUser from "../../../Hooks/useDbUser";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { useState } from "react";
+import Pagination from "../SearchAndPagination/Pagination";
 
 const TransactionHistory = () => {
   const { dbUser } = useDbUser();
   const axiosSecure = useAxiosSecure();
 
   // Pagination
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0); // ✅ Pagination component 0-based index use করছে
   const itemsPerPage = 5;
 
   const { data: history = [], error, isLoading } = useQuery({
@@ -44,7 +45,7 @@ const TransactionHistory = () => {
 
   // Pagination logic
   const totalPages = Math.ceil(transactions.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
+  const startIndex = currentPage * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const currentTransactions = transactions.slice(startIndex, endIndex);
 
@@ -87,7 +88,7 @@ const TransactionHistory = () => {
   };
 
   return (
-    <div className="bg-white rounded-2xl  max-w-5xl mt-10  mx-auto">
+    <div className="bg-white rounded-2xl max-w-5xl mt-10 mx-auto">
       <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">
         Transaction History
       </h2>
@@ -140,9 +141,7 @@ const TransactionHistory = () => {
                   {tx.status === "approved" && (
                     <CheckCircle className="w-4 h-4" />
                   )}
-                  {tx.status === "pending" && (
-                    <Clock className="w-4 h-4" />
-                  )}
+                  {tx.status === "pending" && <Clock className="w-4 h-4" />}
                   <span className="ml-1">{tx.status}</span>
                 </div>
               </div>
@@ -151,44 +150,20 @@ const TransactionHistory = () => {
         })}
       </div>
 
-      {/* Pagination */}
+      {/* ✅ Reusable Pagination */}
       {transactions.length > itemsPerPage && (
-        <div className="flex justify-center mt-6 space-x-2">
-          <button
-            onClick={() =>
-              setCurrentPage((prev) => Math.max(prev - 1, 1))
-            }
-            disabled={currentPage === 1}
-            className="px-3 py-1 bg-gray-200 rounded-lg text-sm disabled:opacity-50 hover:bg-gray-300"
-          >
-            Prev
-          </button>
-
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-            (page) => (
-              <button
-                key={page}
-                onClick={() => setCurrentPage(page)}
-                className={`px-3 py-1 rounded-lg text-sm font-medium ${
-                  page === currentPage
-                    ? "bg-blue-600 text-white"
-                    : "bg-gray-200 hover:bg-gray-300"
-                }`}
-              >
-                {page}
-              </button>
-            )
-          )}
-
-          <button
-            onClick={() =>
-              setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-            }
-            disabled={currentPage === totalPages}
-            className="px-3 py-1 bg-gray-200 rounded-lg text-sm disabled:opacity-50 hover:bg-gray-300"
-          >
-            Next
-          </button>
+        <div className="mt-6">
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            totalItems={transactions.length}
+            itemsPerPage={itemsPerPage}
+            onPageChange={setCurrentPage}
+            startIndex={startIndex}
+            endIndex={endIndex}
+            itemName="transactions"
+            showInfo={false} // চাইলে true দিলে "Showing X to Y of Z transactions" দেখাবে
+          />
         </div>
       )}
     </div>

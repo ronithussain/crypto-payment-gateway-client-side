@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import BannerImg from "../../../assets/BannerImage/Banner.png"
+import BannerImg from "../../../assets/BannerImage/Banner.jpg"
 import { FaArrowRight } from "react-icons/fa";
 import useAuth from "../../../Hooks/UseAuth";
 import useAdmin from "../../../Hooks/useAdmin";

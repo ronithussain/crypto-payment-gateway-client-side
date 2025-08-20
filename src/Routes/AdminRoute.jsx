@@ -1,23 +1,27 @@
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate} from "react-router-dom";
 import useAdmin from "../Hooks/useAdmin";
 import useAuth from "../Hooks/UseAuth";
 import LoadingSpinner from "../Context/LoadingSpinner";
 
 
+import { useMemo } from 'react';
+
 const AdminRoute = ({ children }) => {
     const { user, loading } = useAuth();
     const [isAdmin, isAdminLoading] = useAdmin();
- 
-    const location = useLocation();
-    // console.log(location)
+    
+    // Memoize করে রাখুন - user change না হলে re-calculate হবে না
+    const shouldShowChildren = useMemo(() => {
+        return user && isAdmin;
+    }, [user, isAdmin]);
+    
     if (loading || isAdminLoading) {
         return <LoadingSpinner />
     }
-    if (user && isAdmin) {
+    if (shouldShowChildren) {
         return children;
     }
-    return <Navigate to="/login" state={{ from: location }} replace />;
-
+    return <Navigate to="/login" replace />;
 };
 
 export default AdminRoute;
