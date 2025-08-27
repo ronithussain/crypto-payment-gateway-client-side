@@ -1,11 +1,10 @@
 import { BsCalendarRangeFill } from "react-icons/bs";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
-import { FaArrowTrendUp } from "react-icons/fa6";
 import UserProfile from "./UserProfile";
 import PurchaseInfo from "./PurchaseInfo";
 import useDbUser from '../../../Hooks/useDbUser'
-import LiveProfitSystem from "./LiveProfitSystem";
+import LiveProfitSystem from "./LiveProfitSystem/LiveProfitSystem";
 
 const AccountBalance = () => {
   const { dbUser } = useDbUser();
@@ -28,12 +27,7 @@ const AccountBalance = () => {
   // console.log(userData);
 
   const balance = userData?.balance || 0;
-  // const totalProfit = 0; // later dynamic logic can be added here
 
-  //   const formattedBalance = balance.toLocaleString("en-US", { 
-  //   minimumFractionDigits: 2, 
-  //   maximumFractionDigits: 2 
-  // });
 
   return (
     <>
@@ -43,23 +37,14 @@ const AccountBalance = () => {
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
             <div>
               <h2 className="text-xl md:text-2xl font-semibold">Account Balance</h2>
-              <p className="text-3xl md:text-4xl font-bold mt-2">${balance.toFixed(2)}</p>
+              <p className="text-3xl md:text-4xl font-bold mt-2">${Number(balance).toLocaleString('en-US', { minimumFractionDigits: 2 })}</p>
             </div>
             <div className="bg-slate-400 bg-opacity-20 p-3 rounded-full mt-4 md:mt-0">
               <BsCalendarRangeFill className="text-white text-2xl" />
             </div>
           </div>
 
-          <div className="divider"></div>
-
-          {/* <div className="flex justify-between items-center">
-            <div className="flex items-center gap-2">
-              <span className="text-white"><FaArrowTrendUp /></span>
-              <span>Total Profit</span>
-            </div>
-            <p className="text-xl font-bold">${totalProfit.toFixed(2)}</p>
-          </div> */}
-        </div>
+          <div className="divider"></div></div>
       </div>
       <LiveProfitSystem />
       <PurchaseInfo />

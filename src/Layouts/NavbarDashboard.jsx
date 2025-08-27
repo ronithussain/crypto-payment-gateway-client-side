@@ -13,14 +13,16 @@ import { useQuery } from "@tanstack/react-query";
 
 const NavbarDashboard = () => {
     const { handleLogout } = useAuth();
-    const [isAdmin] = useAdmin();
+    const [isAdmin, isAdminLoading] = useAdmin();
 
-    const { dbUser } = useDbUser();
+    const { dbUser, userLoading } = useDbUser();
     const axiosSecure = useAxiosSecure();
+
+    
 
     //  closed drawer
     const handleDrawerClose = () => {
-        document.getElementById("my-drawer-4").checked = false;
+        document.getElementById("dashboard-drawer").checked = false;
     }
 
     const navLinks = (
@@ -114,9 +116,6 @@ const NavbarDashboard = () => {
         </>
     );
 
-
-
-
     // Step: fetch user balance info
     const { data: userData = {}, } = useQuery({
         queryKey: ['userBalance', dbUser?._id],
@@ -127,6 +126,10 @@ const NavbarDashboard = () => {
         }
     });
     // console.log(userData);
+
+    if (userLoading || isAdminLoading) {
+        return <div>Loading...</div>;
+    }
 
     const balance = Number(userData?.balance || 0);
     const formattedBalance = balance.toLocaleString("en-US", {
@@ -152,7 +155,7 @@ const NavbarDashboard = () => {
                                 <div className="flex items-center">
                                     <BiDollar className="text-3xl text-[#32bbca]" />
                                     <h2 className="text-xl sm:text-2xl font-bold tracking-wide">
-                                        E-<span className="text-yellow-400">B<span>anking</span></span>
+                                        X-<span className="text-yellow-400">B<span>anking</span></span>
                                     </h2>
                                 </div>
                             </Link>
@@ -201,7 +204,7 @@ const NavbarDashboard = () => {
                             <div>
                                 Balance:{" "}
                                 <span className="font-semibold text-yellow-300 ">
-                                 ${formattedBalance}
+                                    ${formattedBalance}
                                 </span>
                                 <div className="mt-3 border-t border-gray-500  text-sm"></div>
                             </div>

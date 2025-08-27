@@ -188,7 +188,7 @@ const DepositWithdraw = () => {
                                     min="0"
                                     value={amount}
                                     onChange={(e) => setAmount(e.target.value)}
-                                    className="w-full pl-8 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                                    className="w-full pl-8 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 placeholder:gray-500 dark:placeholder-gray-400  text-gray-500"
                                     placeholder="Enter Amount . . ."
                                     required
                                 />
@@ -204,7 +204,7 @@ const DepositWithdraw = () => {
                             <select
                                 value={paymentMethod}
                                 onChange={handlePaymentChange}
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-gray-900 dark:text-gray-500"
                                 required
                             >
                                 <option value="" disabled>$ Crypto Credit</option>
@@ -227,7 +227,7 @@ const DepositWithdraw = () => {
                                     type="text"
                                     value={walletAddress}
                                     onChange={(e) => setWalletAddress(e.target.value)}
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 placeholder:gray-500 dark:placeholder-gray-500"
                                     placeholder={
                                         paymentMethod === 'bitcoin'
                                             ? 'e.g. bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh'

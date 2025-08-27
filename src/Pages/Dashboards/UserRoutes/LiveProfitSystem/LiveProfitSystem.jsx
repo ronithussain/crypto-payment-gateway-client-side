@@ -1,14 +1,12 @@
-// Fully Responsive LiveProfitSystem Component
-import BankDollar from '../../../assets/ProfitTask/Bank_Dollar.png';
-import BankEuro from '../../../assets/ProfitTask/Bank_Euro.png';
+import BankDollar from '../../../../assets/ProfitTask/Bank_Dollar.png';
+import BankEuro from '../../../../assets/ProfitTask/Bank_Euro.png';
 import { RxCross2 } from "react-icons/rx";
 import { MdPayment, MdTrendingUp, MdSecurity } from "react-icons/md";
 import { HiCurrencyDollar } from "react-icons/hi2";
 import { FaExchangeAlt, FaShieldAlt, FaChartLine, FaUsers, FaWallet } from "react-icons/fa";
 import { useState, useEffect, useCallback } from 'react';
-import useAxiosSecure from "../../../Hooks/useAxiosSecure";
-import useDbUser from "../../../Hooks/useDbUser";
-import { useQueryClient } from "@tanstack/react-query";
+import useAxiosSecure from '../../../../Hooks/useAxiosSecure';
+import useDbUser from '../../../../Hooks/useDbUser';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
@@ -34,7 +32,7 @@ const ModalBackdrop = ({ children, onClose }) => (
 );
 
 // Fully Responsive Validation Modal Component
-const ValidationModal = ({ type, onClose, onDeposit, requiredAmount, currentReferrals, requiredReferrals }) => {
+const ValidationModal = ({ type, onClose, requiredAmount, currentReferrals, requiredReferrals }) => {
   const navigate = useNavigate();
 
   const handleDepositRedirect = () => {
@@ -369,8 +367,7 @@ const SurveyTask = ({ task, onTaskComplete, onClose, currentTaskNumber, totalTas
 const LiveProfitSystem = ({ onBalanceUpdate }) => {
   const { dbUser, refetch: refetchDbUser } = useDbUser();
   const axiosSecure = useAxiosSecure();
-  const queryClient = useQueryClient();
-  const navigate = useNavigate();
+
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isButtonLoading, setIsButtonLoading] = useState(false);
@@ -450,17 +447,23 @@ const LiveProfitSystem = ({ onBalanceUpdate }) => {
         console.log('🔄 Trying fallback APIs...');
 
         const [balanceRes, referralsRes, taskProgressRes] = await Promise.all([
-          axiosSecure.get(`/usersBalance/${dbUser._id}`).catch(e => ({ data: { balance: 0, totalDeposits: 0 } })),
-          axiosSecure.get(`/userReferrals/${dbUser._id}`).catch(e => ({ data: { totalReferrals: 0 } })),
-          axiosSecure.get(`/userTaskProgress/${dbUser._id}`).catch(e => ({ data: { taskProgress: 0 } }))
+          axiosSecure.get(`/usersBalance/${dbUser._id}`)
+            .catch(() => ({ data: { balance: 0, totalDeposits: 0 } })),
+
+          axiosSecure.get(`/userReferrals/${dbUser._id}`)
+            .catch(() => ({ data: { totalReferrals: 0 } })),
+
+          axiosSecure.get(`/userTaskProgress/${dbUser._id}`)
+            .catch(() => ({ data: { taskProgress: 0 } }))
         ]);
 
         const fallbackData = {
-          balance: balanceRes.data.balance || 0,
-          totalDeposits: balanceRes.data.totalDeposits || 0,
-          totalReferrals: referralsRes.data.totalReferrals || 0,
-          taskProgress: taskProgressRes.data.taskProgress || 0
+          balance: balanceRes?.data?.balance || 0,
+          totalDeposits: balanceRes?.data?.totalDeposits || 0,
+          totalReferrals: referralsRes?.data?.totalReferrals || 0,
+          taskProgress: taskProgressRes?.data?.taskProgress || 0
         };
+
 
         console.log('✅ Fallback data loaded:', fallbackData);
 
@@ -519,20 +522,21 @@ const LiveProfitSystem = ({ onBalanceUpdate }) => {
     }
 
     // Special deposit tasks (matching backend requirements)
+    // ✅ FRONTEND (LiveProfitSystem.jsx) - CORRECTED MAPPING
     const depositRequirements = {
-      25: 80,    // Task 26
-      30: 140,   // Task 31  
-      36: 320,   // Task 37
-      39: 730,   // Task 40
-      41: 1300,  // Task 42
-      42: 2500,  // Task 43
-      43: 5000,  // Task 44
-      44: 8000,  // Task 45
-      45: 15000, // Task 46
-      46: 25000, // Task 47
-      47: 40000, // Task 48
-      48: 60000, // Task 49
-      49: 100000 // Task 50
+      25: 80,     // Task 26
+      30: 140,    // Task 31  
+      36: 320,    // Task 37
+      39: 730,    // Task 40
+      41: 1300,   // Task 42
+      42: 1500,   // Task 43
+      43: 2500,   // Task 44
+      44: 8000,   // Task 45
+      45: 15000,  // Task 46
+      46: 25000,  // Task 47
+      47: 40000,  // Task 48
+      48: 60000,  // Task 49
+      49: 100000  // Task 50
     };
 
     const requiredDeposit = depositRequirements[taskIndex];
@@ -610,6 +614,14 @@ const LiveProfitSystem = ({ onBalanceUpdate }) => {
         userId: dbUser._id
       });
 
+      // ✅ ADD: Double-check validation before sending to server
+      const localValidation = validateTaskAccess(userTaskProgress);
+      if (!localValidation.valid) {
+        console.log('❌ Local validation failed:', localValidation);
+        toast.error('Task validation failed. Please refresh the page.');
+        return;
+      }
+
       // Use the completeTaskProfit API
       const response = await axiosSecure.post(`/completeTaskProfit/${dbUser._id}`, {
         taskIndex: userTaskProgress,
@@ -663,9 +675,29 @@ const LiveProfitSystem = ({ onBalanceUpdate }) => {
     } catch (error) {
       console.error('❌ Task completion failed:', error);
 
-      // Show user-friendly error message
+      // ✅ Enhanced error handling
       const errorMessage = error.response?.data?.error || error.message || 'Task completion failed';
-      toast.error(`Failed to complete task: ${errorMessage}`);
+
+      // Check if it's a validation error
+      if (errorMessage.includes('Insufficient deposit') || errorMessage.includes('Insufficient referrals')) {
+        toast.error(`Access Denied: ${errorMessage}`);
+
+        // Close modal and show validation modal
+        setTimeout(() => {
+          const validation = validateTaskAccess(userTaskProgress);
+          if (!validation.valid) {
+            setValidationModal({
+              show: true,
+              type: validation.type,
+              requiredAmount: validation.required,
+              currentReferrals: validation.current,
+              requiredReferrals: validation.required
+            });
+          }
+        }, 500);
+      } else {
+        toast.error(`Failed to complete task: ${errorMessage}`);
+      }
 
       // Refresh data on error to ensure consistency
       console.log('🔄 Refreshing data due to error...');
@@ -722,7 +754,7 @@ const LiveProfitSystem = ({ onBalanceUpdate }) => {
   return (
     <>
       {/* Professional Trading Section - Fully Responsive */}
-      <div className="bg-white rounded-lg xs:rounded-xl sm:rounded-2xl lg:rounded-3xl 
+      <div className="bg-white rounded-2xl xs:rounded-xl sm:rounded-xl lg:rounded-3xl 
                       shadow-md xs:shadow-lg sm:shadow-xl border border-gray-100 
                       p-2 xs:p-3 sm:p-4 md:p-6 lg:p-8 
                       my-2 xs:my-3 sm:my-4 lg:my-6">
@@ -739,7 +771,7 @@ const LiveProfitSystem = ({ onBalanceUpdate }) => {
         </div>
 
         {/* Trading Interface - Fully Responsive */}
-        <div className="mb-3 xs:mb-4 sm:mb-6 lg:mb-8">
+        <div className="mb-3 xs:mb-4 sm:mb-6 lg:mb-8 ">
           {/* Mobile Layout - Stacked (xs to sm) */}
           <div className="block md:hidden">
             {/* Banks Row */}
@@ -995,3 +1027,4 @@ const LiveProfitSystem = ({ onBalanceUpdate }) => {
 };
 
 export default LiveProfitSystem;
+

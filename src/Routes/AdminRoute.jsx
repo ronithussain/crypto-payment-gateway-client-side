@@ -1,27 +1,53 @@
-import { Navigate} from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import useAdmin from "../Hooks/useAdmin";
 import useAuth from "../Hooks/UseAuth";
-import LoadingSpinner from "../Context/LoadingSpinner";
+// import { useMemo } from "react";
 
+// const AdminRoute = ({ children }) => {
+//     const { user, loading } = useAuth();
+//     const [isAdmin, isAdminLoading] = useAdmin();
 
-import { useMemo } from 'react';
+//     const shouldShowChildren = useMemo(() => {
+//         return user && isAdmin;
+//     }, [user, isAdmin]);
+
+//     // ✅ spinner বাদ, শুধু কিছুই দেখাবো না
+//     if (loading || isAdminLoading) {
+//         return null;
+//     }
+
+//     if (shouldShowChildren) {
+//         return children;
+//     }
+
+//     return <Navigate to="/login" replace />;
+// };
+
+// AdminRoute component এ শুধু এই একটা line change করুন:
 
 const AdminRoute = ({ children }) => {
     const { user, loading } = useAuth();
     const [isAdmin, isAdminLoading] = useAdmin();
-    
-    // Memoize করে রাখুন - user change না হলে re-calculate হবে না
-    const shouldShowChildren = useMemo(() => {
-        return user && isAdmin;
-    }, [user, isAdmin]);
-    
+
     if (loading || isAdminLoading) {
-        return <LoadingSpinner />
+        return null;
     }
-    if (shouldShowChildren) {
-        return children;
+
+    if (!user) {
+        return <Navigate to="/login" replace />;
     }
-    return <Navigate to="/login" replace />;
+
+    // ❌ Before (যেটা problem করছিল):
+    // if (user && !isAdmin) {
+    //     return <Navigate to="/login" replace />;
+    // }
+
+    // ✅ After (শুধু এটা change করুন):
+    if (user && !isAdmin) {
+        return <Navigate to="/dashboard/accountBalance" replace />;
+    }
+
+    return children;
 };
 
 export default AdminRoute;

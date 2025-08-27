@@ -174,24 +174,24 @@ const Register = () => {
 
     return (
         <div className="hero-content w-full mx-auto min-h-full lg:min-h-screen">
-            <div className="relative sm:p-6 p-4  w-full max-w-lg mx-auto shadow-2xl rounded-lg overflow-hidden bg-white">
+            <div className="relative sm:p-6 p-4 w-full max-w-lg mx-auto shadow-2xl rounded-lg overflow-hidden bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
                 {/* Back to Home Link */}
-                <Link to="/" className="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-gray-800 transition-colors mb-6">
+                <Link to="/" className="inline-flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100 transition-colors mb-6">
                     <BsArrowLeft className="w-4 h-4" />
                     Back To Home
                 </Link>
 
                 {/* Header */}
                 <div className="text-center mt-3 space-y-2">
-                    <h2 className="text-2xl sm:text-4xl font-bold">Create Account</h2>
-                    <p className="text-gray-700">Join Us Today</p>
+                    <h2 className="text-2xl sm:text-4xl font-bold text-gray-900 dark:text-white">Create Account</h2>
+                    <p className="text-gray-700 dark:text-gray-300">Join Us Today</p>
                 </div>
 
                 {/* Form */}
                 <form onSubmit={handleSubmit(onSubmit)} className="fieldset space-y-2">
                     {/* Name Field */}
                     <div>
-                        <label className="font-medium text-gray-700">
+                        <label className="font-medium text-gray-700 dark:text-gray-200">
                             Username
                         </label>
                         <input
@@ -211,22 +211,25 @@ const Register = () => {
                                     noUppercase: value => value === value.toLowerCase() || "Username must be lowercase only"
                                 }
                             })}
-                            className={`input w-full border hover:border-blue-500 ${
-                                errors.name ? 'border-red-300 bg-red-50' : ''
+                            className={`input w-full border bg-white dark:bg-gray-700 dark:text-white hover:border-blue-500 dark:hover:border-blue-400 ${
+                                errors.name 
+                                    ? 'border-red-300 bg-red-50 dark:border-red-500 dark:bg-red-900/20' 
+                                    : 'border-gray-300 dark:border-gray-600'
                             }`}
                             placeholder="Enter your username (lowercase only)"
+                            autoComplete="username" 
                             onChange={(e) => {
                                 e.target.value = e.target.value.toLowerCase().replace(/\s/g, '');
                             }}
                         />
                         {errors.name && (
-                            <span className='text-red-500 text-xs'>{errors.name.message}</span>
+                            <span className='text-red-500 dark:text-red-400 text-xs'>{errors.name.message}</span>
                         )}
                     </div>
 
                     {/* Email Field */}
                     <div>
-                        <label className="font-medium text-gray-700">
+                        <label className="font-medium text-gray-700 dark:text-gray-200">
                             Email Address
                         </label>
                         <input
@@ -238,19 +241,22 @@ const Register = () => {
                                     message: "Please enter a valid email address"
                                 }
                             })}
-                            className={`input w-full border hover:border-blue-500 ${
-                                errors.email ? 'border-red-300 bg-red-50' : ''
+                            className={`input w-full border bg-white dark:bg-gray-700 dark:text-white hover:border-blue-500 dark:hover:border-blue-400 ${
+                                errors.email 
+                                    ? 'border-red-300 bg-red-50 dark:border-red-500 dark:bg-red-900/20' 
+                                    : 'border-gray-300 dark:border-gray-600'
                             }`}
                             placeholder="Enter your email"
+                            autoComplete="email" 
                         />
                         {errors.email && (
-                            <span className='text-red-500 text-xs'>{errors.email.message}</span>
+                            <span className='text-red-500 dark:text-red-400 text-xs'>{errors.email.message}</span>
                         )}
                     </div>
 
                     {/* Password Field */}
                     <div className="relative">
-                        <label className="font-medium text-gray-700">
+                        <label className="font-medium text-gray-700 dark:text-gray-200">
                             Password
                         </label>
                         <input
@@ -270,16 +276,20 @@ const Register = () => {
                                     message: "Password must contain uppercase, lowercase, number and special character"
                                 }
                             })}
-                            className={`input w-full border hover:border-blue-500 ${
-                                errors.password ? 'border-red-300 bg-red-50' : 
-                                isPasswordValid ? 'border-green-300 bg-green-50' : ''
+                            className={`input w-full border bg-white dark:bg-gray-700 dark:text-white hover:border-blue-500 dark:hover:border-blue-400 ${
+                                errors.password 
+                                    ? 'border-red-300 bg-red-50 dark:border-red-500 dark:bg-red-900/20' 
+                                    : isPasswordValid 
+                                        ? 'border-green-300 bg-green-50 dark:border-green-500 dark:bg-green-900/20' 
+                                        : 'border-gray-300 dark:border-gray-600'
                             }`}
                             placeholder="Enter your password"
+                            autoComplete="password" 
                         />
                         <button
                             type="button"
                             onClick={() => setShowsPassword(!showsPassword)}
-                            className='btn-sm absolute top-8 right-4 text-base'
+                            className='btn-sm absolute top-8 right-4 text-base text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
                         >
                             {showsPassword ? <FaEye /> : <FaEyeSlash />}
                         </button>
@@ -288,13 +298,13 @@ const Register = () => {
                         {password && (
                             <div className="mt-2 space-y-1">
                                 {passwordErrors.map((error, index) => (
-                                    <div key={index} className="flex items-center gap-2 text-sm text-red-600">
+                                    <div key={index} className="flex items-center gap-2 text-sm text-red-600 dark:text-red-400">
                                         <FaTimes className="w-3 h-3" />
                                         <span>{error}</span>
                                     </div>
                                 ))}
                                 {isPasswordValid && (
-                                    <div className="flex items-center gap-2 text-sm text-green-600">
+                                    <div className="flex items-center gap-2 text-sm text-green-600 dark:text-green-400">
                                         <FaCheck className="w-3 h-3" />
                                         <span>Password meets all requirements</span>
                                     </div>
@@ -303,13 +313,13 @@ const Register = () => {
                         )}
                         
                         {errors.password && (
-                            <span className='text-red-500 text-xs'>{errors.password.message}</span>
+                            <span className='text-red-500 dark:text-red-400 text-xs'>{errors.password.message}</span>
                         )}
                     </div>
 
                     {/* Confirm Password Field */}
                     <div className='relative'>
-                        <label className="font-medium text-gray-700">
+                        <label className="font-medium text-gray-700 dark:text-gray-200">
                             Confirm Password
                         </label>
                         <input
@@ -318,76 +328,79 @@ const Register = () => {
                                 required: "Please confirm your password",
                                 validate: value => value === password || "Passwords do not match"
                             })}
-                            className={`input w-full border hover:border-blue-500 ${
-                                errors.confirmPassword ? 'border-red-300 bg-red-50' : ''
+                            className={`input w-full border bg-white dark:bg-gray-700 dark:text-white hover:border-blue-500 dark:hover:border-blue-400 ${
+                                errors.confirmPassword 
+                                    ? 'border-red-300 bg-red-50 dark:border-red-500 dark:bg-red-900/20' 
+                                    : 'border-gray-300 dark:border-gray-600'
                             }`}
                             placeholder="Confirm your password"
+                            autoComplete="confirm password" 
                         />
                         <button
                             type="button"
                             onClick={() => setShowsConfirmPassword(!showsConfirmPassword)}
-                            className='btn-sm absolute top-8 right-4 text-base'
+                            className='btn-sm absolute top-8 right-4 text-base text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
                         >
                             {showsConfirmPassword ? <FaEye /> : <FaEyeSlash />}
                         </button>
                         {errors.confirmPassword && (
-                            <span className='text-red-500 text-xs'>{errors.confirmPassword.message}</span>
+                            <span className='text-red-500 dark:text-red-400 text-xs'>{errors.confirmPassword.message}</span>
                         )}
                     </div>
 
                     {/* Referral Code Field */}
                     <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                                Referral Code{" "}
-                                <span className="text-gray-500 font-normal">(Optional)</span>
-                            </label>
-                            <div className="relative">
-                                <input
-                                    type="text"
-                                    value={referralCode}
-                                    onChange={handleReferralCodeChange}
-                                    className={`w-full px-4 py-3 pr-12 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 ${
-                                        referralCode
-                                            ? referralValidation.isValid === true
-                                                ? 'border-green-300 bg-green-50'
-                                                : referralValidation.isValid === false
-                                                    ? 'border-red-300 bg-red-50'
-                                                    : 'border-gray-300'
-                                            : 'border-gray-300 hover:border-gray-400'
-                                    }`}
-                                    placeholder="Enter referral code"
-                                    maxLength={6}
-                                />
-                                <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-                                    {referralValidation.isValidating && (
-                                        <TbFidgetSpinner className="w-5 h-5 animate-spin text-indigo-500" />
-                                    )}
-                                    {!referralValidation.isValidating && referralCode && referralValidation.isValid === true && (
-                                        <FaCheck className="w-5 h-5 text-green-500" />
-                                    )}
-                                    {!referralValidation.isValidating && referralCode && referralValidation.isValid === false && (
-                                        <FaTimes className="w-5 h-5 text-red-500" />
-                                    )}
-                                </div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
+                            Referral Code{" "}
+                            <span className="text-gray-500 dark:text-gray-400 font-normal">(Optional)</span>
+                        </label>
+                        <div className="relative">
+                            <input
+                                type="text"
+                                value={referralCode}
+                                onChange={handleReferralCodeChange}
+                                className={`w-full px-4 py-3 pr-12 border rounded-lg bg-white dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 ${
+                                    referralCode
+                                        ? referralValidation.isValid === true
+                                            ? 'border-green-300 bg-green-50 dark:border-green-500 dark:bg-green-900/20'
+                                            : referralValidation.isValid === false
+                                                ? 'border-red-300 bg-red-50 dark:border-red-500 dark:bg-red-900/20'
+                                                : 'border-gray-300 dark:border-gray-600'
+                                        : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'
+                                }`}
+                                placeholder="Enter referral code"
+                                maxLength={6}
+                            />
+                            <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                                {referralValidation.isValidating && (
+                                    <TbFidgetSpinner className="w-5 h-5 animate-spin text-indigo-500" />
+                                )}
+                                {!referralValidation.isValidating && referralCode && referralValidation.isValid === true && (
+                                    <FaCheck className="w-5 h-5 text-green-500" />
+                                )}
+                                {!referralValidation.isValidating && referralCode && referralValidation.isValid === false && (
+                                    <FaTimes className="w-5 h-5 text-red-500" />
+                                )}
                             </div>
-                            {referralCode && referralValidation.message && (
-                                <p className={`mt-1 text-sm ${
-                                    referralValidation.isValid ? 'text-green-600' : 'text-red-600'
-                                }`}>
-                                    {referralValidation.message}
-                                    {referralValidation.isValid && referralValidation.referrerName && (
-                                        <span className="block text-gray-600">
-                                            Referred by: {referralValidation.referrerName}
-                                        </span>
-                                    )}
-                                </p>
-                            )}
                         </div>
+                        {referralCode && referralValidation.message && (
+                            <p className={`mt-1 text-sm ${
+                                referralValidation.isValid ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
+                            }`}>
+                                {referralValidation.message}
+                                {referralValidation.isValid && referralValidation.referrerName && (
+                                    <span className="block text-gray-600 dark:text-gray-400">
+                                        Referred by: {referralValidation.referrerName}
+                                    </span>
+                                )}
+                            </p>
+                        )}
+                    </div>
 
                     {/* Submit Button */}
                     <button
                         type="submit"
-                        className="btn w-full mt-4 bg-[#4F46E5] text-white/80 rounded-md flex justify-center items-center gap-2"
+                        className="btn w-full mt-4 bg-[#4F46E5] hover:bg-[#4338CA] text-white rounded-md flex justify-center items-center gap-2 border-none"
                         disabled={loading}
                     >
                         {loading ? (
@@ -403,9 +416,9 @@ const Register = () => {
 
                 {/* Login Link */}
                 <div className="mt-6 text-center">
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-gray-600 dark:text-gray-300">
                         Already have an account?{" "}
-                        <Link to="/login" className="text-indigo-600 hover:text-indigo-700 font-medium">
+                        <Link to="/login" className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 font-medium hover:underline">
                             Sign in
                         </Link>
                     </p>

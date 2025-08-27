@@ -169,7 +169,7 @@ const ReferralProgram = () => {
                                 type="text"
                                 value={referralLink}
                                 readOnly
-                                className="flex-1 px-3 py-2 border border-gray-300 rounded-lg bg-white text-sm"
+                                className="flex-1 px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-600 dark:text-gray-600 text-sm"
                                 placeholder="Your referral link will appear here..."
                             />
                             <button

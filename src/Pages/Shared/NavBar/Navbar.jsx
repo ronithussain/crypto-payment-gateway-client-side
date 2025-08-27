@@ -78,7 +78,7 @@ const Navbar = () => {
                     </div>
                     <Link to="/">
                         <h3 className="font-medium sm:text-2xl md:text-2xl text-base text-white/90">
-                            E-<span className="text-[#40aaec]">B</span>anking
+                            X-<span className="text-[#40aaec]">B</span>anking
                         </h3>
                     </Link>
                 </div>
@@ -179,7 +179,7 @@ const Navbar = () => {
                             <div className="my-4 mt-12">
                                 <Link to="/" onClick={handleDrawerClose} className="flex items-center">
                                     <h3 className="font-medium sm:text-2xl md:text-2xl text-base text-white/90">
-                                        E<span className="text-[#40aaec]"> B</span>anking
+                                        X-<span className="text-[#40aaec]"> B</span>anking
                                     </h3>
                                 </Link>
                             </div>
